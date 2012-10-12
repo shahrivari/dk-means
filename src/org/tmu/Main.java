@@ -9,6 +9,7 @@ import org.tmu.util.Point;
 import org.tmu.util.RandomPointGenerator;
 
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,23 +26,29 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         List<Point> points= new ArrayList<Point>();
-        int count=300000;
+        int count=333333;
         points.addAll(RandomPointGenerator.GenerateSphere(new Point(new double[]{10,10,10}),count,123));
         points.addAll(RandomPointGenerator.GenerateSphere(new Point(new double[]{0,0,0}),count,123));
         points.addAll(RandomPointGenerator.GenerateSphere(new Point(new double[]{20,20,20}),count,123));
 
 
         Point center= PointGeometry.ComputeCenter(points);
+        /*
+        FileWriter writer=new FileWriter("C:\\a.csv");
+        for(Point p:points)
+            writer.write(p.toString().substring(1,p.toString().length()-1)+"\n");
+        writer.close();
+        */
 
+        //SimpleKMeansClusterer<Point> kmeans=new SimpleKMeansClusterer<Point>(new Random(123));
 
-
-        SimpleKMeansClusterer<Point> kmeans=new SimpleKMeansClusterer<Point>(new Random(123));
+        KMeansPlusPlusClusterer<Point> kmeans=new KMeansPlusPlusClusterer<Point>(new Random(123));
 
         long t0=System.currentTimeMillis();
-        List<Cluster<Point>> res=kmeans.cluster(points,6,7);
+        List<Cluster<Point>> res=kmeans.cluster(points,3,7);
         long t1=System.currentTimeMillis()-t0;
         System.out.println(t1);
-        System.in.read();
+        //System.in.read();
 
 
 

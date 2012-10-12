@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6f83ac58-fae8-4d37-898b-a1112bcc41c0" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/tmu/clustering/FastKMeansPlusPlusClusterer.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/tmu/clustering/SimpleKMeansClusterer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/libraries/commons_math3_3_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/commons_math3_3_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/artifacts/dk_means_jar.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/tmu/Main.java" afterPath="$PROJECT_DIR$/src/org/tmu/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/tmu/util/Point.java" afterPath="$PROJECT_DIR$/src/org/tmu/util/Point.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/tmu/util/PointGeometry.java" afterPath="$PROJECT_DIR$/src/org/tmu/util/PointGeometry.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/tmu/util/RandomPointGenerator.java" afterPath="$PROJECT_DIR$/src/org/tmu/util/RandomPointGenerator.java" />
     </list>
     <ignored path="dk-means.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -28,7 +24,7 @@
   </component>
   <component name="DebuggerManager">
     <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/src/org/tmu/Main.java" line="47" class="org.tmu.Main" package="org.tmu">
+      <breakpoint url="file://$PROJECT_DIR$/src/org/tmu/Main.java" line="54" class="org.tmu.Main" package="org.tmu">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -42,6 +38,19 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
       <breakpoint url="file://$PROJECT_DIR$/src/org/tmu/clustering/SimpleKMeansClusterer.java" line="67" class="org.tmu.clustering.SimpleKMeansClusterer" package="org.tmu.clustering">
+        <option name="ENABLED" value="true" />
+        <option name="LOG_ENABLED" value="false" />
+        <option name="LOG_EXPRESSION_ENABLED" value="false" />
+        <option name="SUSPEND_POLICY" value="SuspendAll" />
+        <option name="COUNT_FILTER_ENABLED" value="false" />
+        <option name="COUNT_FILTER" value="0" />
+        <option name="CONDITION_ENABLED" value="false" />
+        <option name="CLASS_FILTERS_ENABLED" value="false" />
+        <option name="INSTANCE_FILTERS_ENABLED" value="false" />
+        <option name="CONDITION" value="" />
+        <option name="LOG_MESSAGE" value="" />
+      </breakpoint>
+      <breakpoint url="file://$PROJECT_DIR$/src/org/tmu/Main.java" line="44" class="org.tmu.Main" package="org.tmu">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -104,23 +113,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Main.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Main.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/org/tmu/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="0" selection-start="1295" selection-end="1295" vertical-scroll-proportion="0.0">
+            <state line="35" column="10" selection-start="1189" selection-end="1189" vertical-scroll-proportion="0.35443038">
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#742#749#0" expanded="true" />
-                <element signature="e#1224#1231#0" expanded="true" />
+                <element signature="e#1562#1569#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SimpleKMeansClusterer.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="SimpleKMeansClusterer.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/tmu/clustering/SimpleKMeansClusterer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="53" column="57" selection-start="2129" selection-end="2129" vertical-scroll-proportion="-0.48849106">
+            <state line="59" column="15" selection-start="2419" selection-end="2419" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2058#2070#0" expanded="true" />
@@ -133,20 +140,7 @@
       <file leaf-file-name="FastKMeansPlusPlusClusterer.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/tmu/clustering/FastKMeansPlusPlusClusterer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="101" column="0" selection-start="3171" selection-end="4374" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#3402#3414#0" expanded="true" />
-                <element signature="e#6559#6571#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Cluster.class" pinned="false" current="false" current-in-tab="false">
-        <entry file="jar://$PROJECT_DIR$/lib/commons-math3-3.0.jar!/org/apache/commons/math3/stat/clustering/Cluster.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="13" selection-start="178" selection-end="178" vertical-scroll-proportion="-2.72">
+            <state line="115" column="44" selection-start="5023" selection-end="5023" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -174,9 +168,7 @@
         <entry file="file://$PROJECT_DIR$/src/org/tmu/util/Point.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="30" column="24" selection-start="642" selection-end="642" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -212,16 +204,16 @@
         <option value="$PROJECT_DIR$/src/org/tmu/clustering/FastKmeansPlusPlusClusterer.java" />
         <option value="$PROJECT_DIR$/src/org/tmu/util/Point.java" />
         <option value="$PROJECT_DIR$/src/org/tmu/clustering/FastKMeansPlusPlusClusterer.java" />
-        <option value="$PROJECT_DIR$/src/org/tmu/Main.java" />
         <option value="$PROJECT_DIR$/src/org/tmu/clustering/SimpleKMeansClusterer.java" />
+        <option value="$PROJECT_DIR$/src/org/tmu/Main.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="54" />
     <option name="y" value="-8" />
-    <option name="width" value="1234" />
-    <option name="height" value="816" />
+    <option name="width" value="1554" />
+    <option name="height" value="916" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -249,20 +241,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dk-means" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="dk-means" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -331,6 +309,20 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dk-means" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dk-means" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="lib" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -356,19 +348,33 @@
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dk-means" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dk-means" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="182" />
-    <property name="OverrideImplement.combined" value="true" />
-    <property name="project.structure.proportion" value="0.15" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="200" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="OverrideImplement.combined" value="true" />
     <property name="options.splitter.main.proportions" value="0.3" />
-    <property name="recentsLimit" value="5" />
-    <property name="MemberChooser.sorted" value="false" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="197" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="MemberChooser.sorted" value="false" />
+    <property name="recentsLimit" value="5" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="202" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="876" />
@@ -389,8 +395,8 @@
     <property name="options.lastSelected" value="settings.github" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="dynamic.classpath" value="false" />
     <property name="options.searchVisible" value="true" />
+    <property name="dynamic.classpath" value="false" />
   </component>
   <component name="RunManager" selected="Application.Main">
     <configuration default="false" name="Main" type="Application" factoryName="Application" temporary="true">
@@ -534,15 +540,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="54" y="-8" width="1234" height="816" extended-state="6" />
+    <frame x="54" y="-8" width="1554" height="916" extended-state="6" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4192073" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4542683" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4537037" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3597561" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -551,12 +556,13 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24893071" sideWeight="0.6707317" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39939025" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3292683" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24848892" sideWeight="0.6626984" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33730158" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39939025" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -650,16 +656,9 @@
         <state line="5" column="28" selection-start="39" selection-end="39" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/tmu/util/RandomPointGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="41" selection-start="1261" selection-end="1261" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$PROJECT_DIR$/lib/commons-math3-3.0.jar!/org/apache/commons/math3/stat/clustering/Cluster.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="13" selection-start="178" selection-end="178" vertical-scroll-proportion="-2.72">
+        <state line="5" column="13" selection-start="178" selection-end="178" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
@@ -671,44 +670,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/tmu/util/Point.java">
+    <entry file="file://$PROJECT_DIR$/src/org/tmu/util/RandomPointGenerator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="24" selection-start="642" selection-end="642" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="41" column="41" selection-start="1261" selection-end="1261" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/tmu/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/org/tmu/util/Point.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="0" selection-start="1295" selection-end="1295" vertical-scroll-proportion="0.0">
+        <state line="30" column="24" selection-start="642" selection-end="642" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/tmu/clustering/SimpleKMeansClusterer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="59" column="15" selection-start="2419" selection-end="2419" vertical-scroll-proportion="0.0">
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#742#749#0" expanded="true" />
-            <element signature="e#1224#1231#0" expanded="true" />
+            <element signature="e#2058#2070#0" expanded="true" />
+            <element signature="e#4560#4572#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/tmu/clustering/FastKMeansPlusPlusClusterer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="101" column="0" selection-start="3171" selection-end="4374" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3402#3414#0" expanded="true" />
-            <element signature="e#6559#6571#0" expanded="true" />
-          </folding>
+        <state line="115" column="44" selection-start="5023" selection-end="5023" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/tmu/clustering/SimpleKMeansClusterer.java">
+    <entry file="file://$PROJECT_DIR$/src/org/tmu/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="57" selection-start="2129" selection-end="2129" vertical-scroll-proportion="-0.48849106">
+        <state line="35" column="10" selection-start="1189" selection-end="1189" vertical-scroll-proportion="0.35443038">
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2058#2070#0" expanded="true" />
-            <element signature="e#4560#4572#0" expanded="true" />
+            <element signature="e#1562#1569#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -719,10 +717,12 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
+          <last-edited>dk-means:jar</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.5" />
               </list>
             </option>
           </splitter-proportions>
