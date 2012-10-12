@@ -28,9 +28,9 @@ public class RandomPointGenerator {
         return result;
     }
 
-    static public List<Point> GenerateSphere(Point center, int point_count, int random_seed)
+    static public List<Point> GenerateSphere(Point center, int point_count, Random random)
     {
-        Random random=new Random(random_seed);
+        if(random==null)random=new Random();
         List<Point> result=new ArrayList<Point>(point_count);
 
         for(int i=0;i<point_count;i++)

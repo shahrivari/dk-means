@@ -3,4 +3,5 @@
 # Package Files #
 *.war
 *.ear
+
 workspace.xml
