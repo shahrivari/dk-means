@@ -1,11 +1,18 @@
 package org.tmu;
 
+import org.apache.commons.math3.stat.clustering.Cluster;
+import org.apache.commons.math3.stat.clustering.KMeansPlusPlusClusterer;
+import org.tmu.clustering.FastKMeansPlusPlusClusterer;
+import org.tmu.clustering.SimpleKMeansClusterer;
 import org.tmu.util.PointGeometry;
 import org.tmu.util.Point;
 import org.tmu.util.RandomPointGenerator;
 
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,11 +22,27 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class Main {
-    public static void main(String[] args)
-    {
-        List<Point> points= RandomPointGenerator.Generate(100000,10,123);
+    public static void main(String[] args) throws IOException {
+
+        List<Point> points= new ArrayList<Point>();
+        int count=300000;
+        points.addAll(RandomPointGenerator.GenerateSphere(new Point(new double[]{10,10,10}),count,123));
+        points.addAll(RandomPointGenerator.GenerateSphere(new Point(new double[]{0,0,0}),count,123));
+        points.addAll(RandomPointGenerator.GenerateSphere(new Point(new double[]{20,20,20}),count,123));
+
 
         Point center= PointGeometry.ComputeCenter(points);
+
+
+
+        SimpleKMeansClusterer<Point> kmeans=new SimpleKMeansClusterer<Point>(new Random(123));
+
+        long t0=System.currentTimeMillis();
+        List<Cluster<Point>> res=kmeans.cluster(points,6,7);
+        long t1=System.currentTimeMillis()-t0;
+        System.out.println(t1);
+        System.in.read();
+
 
 
     }
