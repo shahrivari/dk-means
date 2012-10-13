@@ -5,3 +5,5 @@
 *.ear
 
 workspace.xml
+out/*
+.idea/workspace.xml

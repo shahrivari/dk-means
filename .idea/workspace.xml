@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6f83ac58-fae8-4d37-898b-a1112bcc41c0" name="Default" comment="Added some basic classes and snappy library">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/org/tmu/clustering/StreamClusterer.java" />
-      <change type="DELETED" beforePath="D:\DeskSpace\Projects\dk-means\src\org\tmu\clustering\FastKMeansPlusPlusClusterer.java" afterPath="" />
+    <list default="true" id="6f83ac58-fae8-4d37-898b-a1112bcc41c0" name="Default" comment="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;.gitignore&#10;&#9;src/org/tmu/Main.java&#10;&#9;src/org/tmu/clustering/StreamClusterer.java&#10;&#9;src/org/tmu/util/RandomPointGenerator.java&#10;">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/guava-13.0.1.jar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/guava_13_0_1.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/dk_means_jar.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/dk_means_jar.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dk-means.iml" afterPath="$PROJECT_DIR$/dk-means.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/tmu/Main.java" afterPath="$PROJECT_DIR$/src/org/tmu/Main.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/tmu/clustering/StreamClusterer.java" afterPath="$PROJECT_DIR$/src/org/tmu/clustering/StreamClusterer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/tmu/util/Point.java" afterPath="$PROJECT_DIR$/src/org/tmu/util/Point.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/org/tmu/util/RandomPointGenerator.java" afterPath="$PROJECT_DIR$/src/org/tmu/util/RandomPointGenerator.java" />
+      <change type="MOVED" beforePath="D:\DeskSpace\Projects\dk-means\src\org\tmu\clustering\FastKmeansPlusPlusClusterer.java" afterPath="$PROJECT_DIR$/src/org/tmu/util/CSVReader.java" />
     </list>
     <ignored path="dk-means.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,7 +31,7 @@
   </component>
   <component name="DebuggerManager">
     <line_breakpoints>
-      <breakpoint url="file://$PROJECT_DIR$/src/org/tmu/Main.java" line="63" class="org.tmu.Main" package="org.tmu">
+      <breakpoint url="file://$PROJECT_DIR$/src/org/tmu/Main.java" line="79" class="org.tmu.Main" package="org.tmu">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -52,7 +57,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/org/tmu/Main.java" line="46" class="org.tmu.Main" package="org.tmu">
+      <breakpoint url="file://$PROJECT_DIR$/src/org/tmu/Main.java" line="43" class="org.tmu.Main" package="org.tmu">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -65,7 +70,7 @@
         <option name="CONDITION" value="" />
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
-      <breakpoint url="file://$PROJECT_DIR$/src/org/tmu/Main.java" line="55" class="org.tmu.Main" package="org.tmu">
+      <breakpoint url="file://$PROJECT_DIR$/src/org/tmu/Main.java" line="40" class="org.tmu.Main" package="org.tmu">
         <option name="ENABLED" value="true" />
         <option name="LOG_ENABLED" value="false" />
         <option name="LOG_EXPRESSION_ENABLED" value="false" />
@@ -118,7 +123,57 @@
     <favorites_list name="dk-means" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file leaf-file-name="StreamClusterer.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/tmu/clustering/StreamClusterer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Main.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/org/tmu/Main.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="31" column="35" selection-start="1033" selection-end="1033" vertical-scroll-proportion="0.4722222">
+              <folding>
+                <element signature="e#1178#1185#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RandomPointGenerator.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/tmu/util/RandomPointGenerator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="22" column="0" selection-start="550" selection-end="550" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Point.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/tmu/util/Point.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="34" column="0" selection-start="781" selection-end="781" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CSVReader.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/tmu/util/CSVReader.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="28" column="29" selection-start="743" selection-end="743" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -147,11 +202,12 @@
         <option value="$PROJECT_DIR$/src/org/tmu/clustering/FastKmeansPlusPlusClusterer.java" />
         <option value="$PROJECT_DIR$/src/org/tmu/util/Point.java" />
         <option value="$PROJECT_DIR$/src/org/tmu/clustering/SimpleKMeansClusterer.java" />
-        <option value="$PROJECT_DIR$/src/org/tmu/util/RandomPointGenerator.java" />
-        <option value="$PROJECT_DIR$/src/org/tmu/Main.java" />
         <option value="$PROJECT_DIR$/src/org/tmu/clustering/StreamClusterer.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/org/tmu/clustering/FastKMeansPlusPlusClusterer.java" />
+        <option value="$PROJECT_DIR$/src/org/tmu/util/CSVReader.java" />
+        <option value="$PROJECT_DIR$/src/org/tmu/util/RandomPointGenerator.java" />
+        <option value="$PROJECT_DIR$/src/org/tmu/Main.java" />
       </list>
     </option>
   </component>
@@ -485,28 +541,32 @@
       <created>1350069359281</created>
       <updated>1350069359281</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Begun StreamClusterer and removed FastKMeans++">
+      <created>1350079949018</created>
+      <updated>1350079949018</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="54" y="-8" width="1234" height="816" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2820122" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2820122" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4527439" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5625" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2179878" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.50914633" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32249787" sideWeight="0.7179878" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33536586" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23182207" sideWeight="0.66463417" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.33536586" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -551,7 +611,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Begun stream clusterer" />
+    <option name="LAST_COMMIT_MESSAGE" value="Begun StreamClusterer and removed FastKMeans++" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -568,6 +628,7 @@
     <MESSAGE value="Added some basic classes and snappy library" />
     <MESSAGE value="Fixed .idea problem and excluded workspace.xml" />
     <MESSAGE value="Begun stream clusterer" />
+    <MESSAGE value="Begun StreamClusterer and removed FastKMeans++" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -595,11 +656,6 @@
     <entry file="file://$PROJECT_DIR$/src/org/tmu/util/PointGeometry.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/tmu/util/Point.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="24" selection-start="642" selection-end="642" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/libraries/commons_math3_3_0.xml">
@@ -630,15 +686,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/tmu/util/RandomPointGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="44" selection-start="918" selection-end="918" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="e#959#966#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.idea/copyright/profiles_settings.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -653,27 +700,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/tmu/clustering/StreamClusterer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="40" selection-start="1861" selection-end="1861" vertical-scroll-proportion="0.74242425">
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#599#608#0" expanded="true" />
-            <element signature="e#936#1034#0" expanded="true" />
-            <element signature="e#1023#1024#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/tmu/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="49" selection-start="1857" selection-end="1857" vertical-scroll-proportion="0.45959595">
-          <folding>
-            <element signature="e#1726#1733#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/org/tmu/clustering/SimpleKMeansClusterer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="62" selection-start="611" selection-end="639" vertical-scroll-proportion="-0.70415646">
@@ -681,10 +707,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/org/tmu/clustering/FastKmeansPlusPlusClusterer.java">
+    <entry file="file://$PROJECT_DIR$/src/org/tmu/clustering/StreamClusterer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="76" selection-start="229" selection-end="229" vertical-scroll-proportion="0.42117116">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/tmu/util/CSVReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="28" column="29" selection-start="743" selection-end="743" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/tmu/util/Point.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="34" column="0" selection-start="781" selection-end="781" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/tmu/util/RandomPointGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="0" selection-start="550" selection-end="550" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/tmu/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="35" selection-start="1033" selection-end="1033" vertical-scroll-proportion="0.4722222">
+          <folding>
+            <element signature="e#1178#1185#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
