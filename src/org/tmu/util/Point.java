@@ -1,5 +1,6 @@
 package org.tmu.util;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -55,9 +56,17 @@ public class Point implements Clusterable<Point>{
     public String toString()
     {
         StringBuilder builder=new StringBuilder();
+        //DecimalFormat threeDec = new DecimalFormat("0.000");
         builder.append("(");
-        for(int i=0;i<elements.length;i++)
-            builder.append(Double.toString(elements[i])).append(",");
+        for(int i=0;i<elements.length;i++){
+            //builder.append(threeDec.format(elements[i])).append(",");
+            //some dirty code to convert double to string with 3 precision
+            String s=Double.toString(elements[i]);
+            int dot_place=s.indexOf('.');
+            if(dot_place+4<s.length())
+                s=s.substring(0,dot_place+4);
+            builder.append(s).append(",");
+        }
         builder.deleteCharAt(builder.length()-1);
         builder.append(")");
         return builder.toString();
