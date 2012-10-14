@@ -3,10 +3,7 @@ package org.tmu.util;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -17,24 +14,31 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * To change this template use File | Settings | File Templates.
  */
 public abstract class ParallelProducerConsumer<InputType,OutputType> {
-    BlockingQueue<InputType> queue=new LinkedBlockingQueue<InputType>(1024);
-    ConcurrentLinkedQueue<OutputType> results=new ConcurrentLinkedQueue<OutputType>();
+    BlockingQueue<InputType> inputQ=new LinkedBlockingQueue<InputType>(1024);
+    ConcurrentLinkedQueue<OutputType> resultsQ=new ConcurrentLinkedQueue<OutputType>();
 
     CountDownLatch liveThreadsCount;
     List<Thread> threadList=new ArrayList<Thread>();
     int threadCount;
-    AtomicBoolean stop=new AtomicBoolean(false);
+    AtomicBoolean inputRemains =new AtomicBoolean(true);
 
-    abstract void doWork();
+    abstract void processItem(InputType input);
 
     ParallelProducerConsumer()
     {
         threadCount=Runtime.getRuntime().availableProcessors();
+        initThreads();
     }
 
     ParallelProducerConsumer(int thread_count)
     {
         threadCount=thread_count;
+        initThreads();
+    }
+
+    public void InputIsDone()
+    {
+        inputRemains.set(false);
     }
 
     private void initThreads()
@@ -45,11 +49,16 @@ public abstract class ParallelProducerConsumer<InputType,OutputType> {
             Runnable r=new Runnable() {
                 public void run() {
                     try{
-                    do{
-                        doWork();
-                    }while (!stop.get());
+                        while (inputRemains.get()){
+                            InputType chunk=inputQ.poll(1, TimeUnit.MILLISECONDS);
+                            if(chunk==null){
+                                System.out.println("Consumer: I am IDLE!!!!!");
+                                continue;
+                            }
+                            processItem(chunk);
+                        }
                     }catch (Exception e) {
-                        System.out.println("This shall never happen!");
+                        System.out.println("Exception Occurred!");
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     }
                     finally {
@@ -58,25 +67,43 @@ public abstract class ParallelProducerConsumer<InputType,OutputType> {
                 }
             };
             Thread t=new Thread(r);
-            t.start();
             threadList.add(t);
         }
     }
 
-    public boolean IsDone()
+    public void Start()
     {
-        try {
-            liveThreadsCount.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
-        return true;
+        for(Thread t:threadList)
+            t.start();
     }
 
-    public Collection<OutputType> GetResults()
+    public void AddInput(InputType input)
     {
-        IsDone();
-        return results;
+        inputQ.add(input);
+    }
+
+    public void AddAllInput(Collection<InputType> inputs)
+    {
+        inputQ.addAll(inputs);
+    }
+
+
+    public void WaitTillDone() throws InterruptedException {
+        liveThreadsCount.await();
+    }
+
+    public void WaitTillDone(long timeout, TimeUnit timeUnit) throws InterruptedException {
+        liveThreadsCount.await(timeout,timeUnit);
+    }
+
+    public Collection<OutputType> GetResults() throws InterruptedException {
+        WaitTillDone();
+        return resultsQ;
+    }
+
+    public Collection<OutputType> GetResults(long timeout,TimeUnit timeUnit) throws InterruptedException {
+        WaitTillDone(timeout, timeUnit);
+        return resultsQ;
     }
 
 }

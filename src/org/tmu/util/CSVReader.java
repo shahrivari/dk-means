@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
@@ -47,7 +48,7 @@ public class CSVReader {
         return new Point(point);
     }
 
-    public Point[] ReadSomePointInParallel(int count, int threads_count)throws IOException
+    public Collection<Point> ReadSomePointInParallel(int count, int threads_count)throws IOException
     {
         int chunk_size=100000;
         List<List<String>> chunks=new ArrayList<List<String>>();
@@ -74,32 +75,30 @@ public class CSVReader {
         if(chunks.size()==0)
             return null;
 
+        ParallelProducerConsumer<List<String>,Point> producerConsumer=new ParallelProducerConsumer<List<String>, Point>() {
+            @Override
+            void processItem(List<String> input) {
+                List<Point> points=new ArrayList<Point>(input.size());
+                for(String line:input){
+                    String[] tokens=line.split(",");
+                    double [] point=new double[tokens.length];
+                    for(int i=0;i<point.length;i++)
+                        point[i]=Double.parseDouble(tokens[i]);
+                    points.add(new Point(point));
+                }
+                resultsQ.addAll(points);
+            }
+        };
 
-        //ParallelProducerConsumer<>
-//        ExecutorService exec = Executors.newFixedThreadPool(threads_count);
-//        for (final List<String> chunk:chunks) {
-//            exec.submit(new Runnable() {
-//                @Override
-//                public void run() {
-//                    for(String line:chunk){
-//                        String[] tokens=line.split(",");
-//                        double [] point=new double[tokens.length];
-//                        for(int i=0;i<point.length;i++)
-//                            point[i]=Double.parseDouble(tokens[i]);
-//                        queue.add(new Point(point));
-//                    }
-//                }
-//            });
-//        }
-//        exec.shutdown();
-//        try {
-//            exec.awaitTermination(Long.MAX_VALUE, TimeUnit.MICROSECONDS);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//        }
-//
-//        return queue.toArray(new Point[0]);
-        return new Point[0];
+        producerConsumer.AddAllInput(chunks);
+        producerConsumer.InputIsDone();
+        producerConsumer.Start();
+        try {
+            return producerConsumer.GetResults();
+        } catch (InterruptedException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            return null;
+        }
     }
 
 
