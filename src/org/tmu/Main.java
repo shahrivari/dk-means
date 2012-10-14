@@ -13,6 +13,7 @@ import org.tmu.util.RandomPointGenerator;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -27,15 +28,25 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Stopwatch watch=new Stopwatch().start();
         FileWriter writer=new FileWriter("c:\\akbar.csv");
-        RandomPointGenerator.GenerateDisjointClustersToFile(writer,new Point(new double[]{0,0,0}),5,1000*100,new Random(1234));
+        RandomPointGenerator.GenerateDisjointClustersToFile(writer,new Point(new double[]{0,0,0}),5,1000*1000*4,new Random(1234));
         writer.close();
         System.out.println(watch.elapsedMillis());
         watch.reset().start();
         CSVReader reader= new CSVReader("c:\\akbar.csv");
         List<Point> points=new ArrayList<Point>();
-        Point p=null;
-        while ((p=reader.ReadNextPoint())!=null)
-            points.add(p);
+
+        Point p1=null;
+        while ((p1=reader.ReadNextPoint())!=null)
+            points.add(p1);
+        System.out.println(watch.elapsedMillis());
+
+        watch.reset().start();
+        reader= new CSVReader("c:\\akbar.csv");
+
+
+        Point []p;
+        while ((p=reader.ReadSomePointInParallel(500000,4))!=null)
+            Collections.addAll(points, p);
 
         System.out.println(watch.elapsedMillis());
         System.exit(0);

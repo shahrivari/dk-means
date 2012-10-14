@@ -86,12 +86,10 @@ public class StreamClusterer<T extends Clusterable<T>>   {
         {
             try {
                 List<T> chunk=queue.poll(10, TimeUnit.MILLISECONDS);
-                if(chunk==null)
-                {
+                if(chunk==null){
                     System.out.println("I am IDLE!!!!!");
                     continue;
                 }
-                //System.out.println(i++);
                 if(chunk.size()==0){
                     stop.set(true);
                     break;
