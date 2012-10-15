@@ -50,11 +50,28 @@ public class CSVReader {
 
     public Collection<Point> ReadSomePointInParallel(int count, int threads_count)throws IOException
     {
-        int chunk_size=100000;
-        List<List<String>> chunks=new ArrayList<List<String>>();
-        final ConcurrentLinkedQueue<Point> queue=new ConcurrentLinkedQueue<Point>();
+        int chunk_size=1024;
+        //List<List<String>> chunks=new ArrayList<List<String>>();
+        //final ConcurrentLinkedQueue<Point> queue=new ConcurrentLinkedQueue<Point>();
+        ParallelProducerConsumer<List<String>,Point> producerConsumer=new ParallelProducerConsumer<List<String>, Point>() {
+            @Override
+            void processItem(List<String> input) {
+                //System.out.println("HEre");
+                List<Point> points=new ArrayList<Point>(input.size());
+                for(String line:input){
+                    String[] tokens=line.split(",");
+                    double [] point=new double[tokens.length];
+                    for(int i=0;i<point.length;i++)
+                        point[i]=Double.parseDouble(tokens[i]);
+                    points.add(new Point(point));
+                }
+                resultsQ.addAll(points);
+                //System.out.println("Added some: "+points.size());
+            }
+        };
 
         int read_lines=0;
+        //producerConsumer.Start();
 
         while (read_lines<count)
         {
@@ -68,29 +85,16 @@ public class CSVReader {
             }
             if(lines.size()==0)
                 break;
-            chunks.add(lines);
+            //chunks.add(lines);
+            producerConsumer.AddInput(lines);
             read_lines+=lines.size();
         }
 
-        if(chunks.size()==0)
+        if(read_lines==0)
             return null;
 
-        ParallelProducerConsumer<List<String>,Point> producerConsumer=new ParallelProducerConsumer<List<String>, Point>() {
-            @Override
-            void processItem(List<String> input) {
-                List<Point> points=new ArrayList<Point>(input.size());
-                for(String line:input){
-                    String[] tokens=line.split(",");
-                    double [] point=new double[tokens.length];
-                    for(int i=0;i<point.length;i++)
-                        point[i]=Double.parseDouble(tokens[i]);
-                    points.add(new Point(point));
-                }
-                resultsQ.addAll(points);
-            }
-        };
 
-        producerConsumer.AddAllInput(chunks);
+        //producerConsumer.AddAllInput(chunks);
         producerConsumer.InputIsDone();
         producerConsumer.Start();
         try {

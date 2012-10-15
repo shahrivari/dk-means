@@ -24,16 +24,16 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws IOException {
         Stopwatch watch=new Stopwatch().start();
-        FileWriter writer=new FileWriter("c:\\akbar.csv");
-        RandomPointGenerator.GenerateDisjointClustersToFile(writer,new Point(new double[]{0,0,0}),5,1000*100,new Random(1234));
-        writer.close();
-        System.out.println(watch.elapsedMillis());
-        watch.reset().start();
+//        FileWriter writer=new FileWriter("c:\\akbar.csv");
+//        RandomPointGenerator.GenerateDisjointClustersToFile(writer,new Point(new double[]{0,0,0}),5,1000*1000*100,new Random(1234));
+//        writer.close();
+//        System.out.println(watch.elapsedMillis());
+//        watch.reset().start();
         CSVReader reader= new CSVReader("c:\\akbar.csv");
         List<Point> points=new ArrayList<Point>();
 
         Point p1=null;
-        while ((p1=reader.ReadNextPoint())!=null)
+        while ((p1=reader.ReadNextPoint())!=null&&points.size()<1000*1000*5)
             points.add(p1);
         System.out.println(watch.elapsedMillis());
 
@@ -42,11 +42,11 @@ public class Main {
 
 
         Collection<Point> p;
-        while ((p=reader.ReadSomePointInParallel(1024,4))!=null)
+        while ((p=reader.ReadSomePointInParallel(1024*100,1))!=null&&points.size()<1000*1000*10)
             points.addAll(p);
 
         System.out.println(watch.elapsedMillis());
-        System.exit(0);
+        //System.exit(0);
 
         //int count=1000000;
         //List<Point> points= RandomPointGenerator.GenerateDisjointClusters(new Point(new double[]{10,10,10}),3,count,new Random(123));
@@ -70,7 +70,7 @@ public class Main {
 
         long t0=System.currentTimeMillis();
         //List<Cluster<Point>> res=kmeans.cluster(points,3,7);
-        System.out.println("Num clusts: " + smeans.getIntermediateCenters().size());
+        //System.out.println("Num clusts: " + smeans.getIntermediateCenters().size());
 
         long t1=System.currentTimeMillis()-t0;
         System.out.println(t1+"     "+num_points);

@@ -49,11 +49,16 @@ public abstract class ParallelProducerConsumer<InputType,OutputType> {
             Runnable r=new Runnable() {
                 public void run() {
                     try{
-                        while (inputRemains.get()){
-                            InputType chunk=inputQ.poll(1, TimeUnit.MILLISECONDS);
+                        while (true){
+                            InputType chunk=inputQ.poll(10, TimeUnit.MILLISECONDS);
                             if(chunk==null){
-                                System.out.println("Consumer: I am IDLE!!!!!");
-                                continue;
+                                //System.out.println("Consumer: I am IDLE!!!!!");
+                                if(inputRemains.get())
+                                    continue;
+                                else{
+                                    liveThreadsCount.countDown();
+                                    return;
+                                }
                             }
                             processItem(chunk);
                         }
