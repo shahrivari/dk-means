@@ -25,7 +25,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Stopwatch watch=new Stopwatch().start();
 //        FileWriter writer=new FileWriter("c:\\akbar.csv");
-//        RandomPointGenerator.GenerateDisjointClustersToFile(writer,new Point(new double[]{0,0,0}),5,1000*1000*100,new Random(1234));
+//        RandomPointGenerator.GenerateDisjointClustersToFile(writer,new Point(new double[]{0,0,0}),5,1000*1000*1,new Random(1234));
 //        writer.close();
 //        System.out.println(watch.elapsedMillis());
 //        watch.reset().start();
@@ -33,19 +33,23 @@ public class Main {
         List<Point> points=new ArrayList<Point>();
 
         Point p1=null;
-        while ((p1=reader.ReadNextPoint())!=null&&points.size()<1000*1000*5)
+        while ((p1=reader.ReadNextPoint())!=null&&points.size()<1000*500)
             points.add(p1);
-        System.out.println(watch.elapsedMillis());
+        System.out.println(points.size() +" took  "+ watch.elapsedMillis());
+
 
         watch.reset().start();
+        points.clear();
         reader= new CSVReader("c:\\akbar.csv");
 
 
         Collection<Point> p;
-        while ((p=reader.ReadSomePointInParallel(1024*100,1))!=null&&points.size()<1000*1000*10)
-            points.addAll(p);
+        //while ((p=reader.ReadSomePointInParallel(500*1000,4))!=null&&points.size()<1000*500)
+        p=reader.ReadSomePointInParallel(500*1000,2);
+        points.addAll(p);
+        System.out.println(points.size() +" took  "+ watch.elapsedMillis());
 
-        System.out.println(watch.elapsedMillis());
+        //System.out.println(watch.elapsedMillis());
         //System.exit(0);
 
         //int count=1000000;

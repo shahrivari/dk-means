@@ -1,5 +1,7 @@
 package org.tmu.util;
 
+import com.google.common.base.Stopwatch;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -50,7 +52,7 @@ public class CSVReader {
 
     public Collection<Point> ReadSomePointInParallel(int count, int threads_count)throws IOException
     {
-        int chunk_size=1024;
+        int chunk_size=1024*50;
         //List<List<String>> chunks=new ArrayList<List<String>>();
         //final ConcurrentLinkedQueue<Point> queue=new ConcurrentLinkedQueue<Point>();
         ParallelProducerConsumer<List<String>,Point> producerConsumer=new ParallelProducerConsumer<List<String>, Point>() {
@@ -72,7 +74,7 @@ public class CSVReader {
 
         int read_lines=0;
         //producerConsumer.Start();
-
+        Stopwatch watch=new Stopwatch().start();
         while (read_lines<count)
         {
             List<String> lines=new ArrayList<String>(chunk_size);
@@ -90,6 +92,7 @@ public class CSVReader {
             read_lines+=lines.size();
         }
 
+        System.out.println("Read "+read_lines+" lines in "+watch);
         if(read_lines==0)
             return null;
 

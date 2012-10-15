@@ -67,7 +67,8 @@ public abstract class ParallelProducerConsumer<InputType,OutputType> {
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     }
                     finally {
-                        liveThreadsCount.countDown();
+                        //System.out.println("Sure????!");
+                        //liveThreadsCount.countDown();
                     }
                 }
             };
