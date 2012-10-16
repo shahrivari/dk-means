@@ -1,7 +1,5 @@
 package org.tmu.util;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
-
 import java.util.Collection;
 import java.util.List;
 

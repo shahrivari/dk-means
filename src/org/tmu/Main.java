@@ -3,14 +3,12 @@ package org.tmu;
 import com.google.common.base.Stopwatch;
 import org.apache.commons.math3.stat.clustering.Cluster;
 import org.apache.commons.math3.stat.clustering.KMeansPlusPlusClusterer;
+import org.tmu.clustering.ImprovedStreamClusterer;
+import org.tmu.clustering.SimpleKMeansClusterer;
 import org.tmu.clustering.StreamClusterer;
-import org.tmu.util.CSVReader;
-import org.tmu.util.PointGeometry;
-import org.tmu.util.Point;
-import org.tmu.util.RandomPointGenerator;
+import org.tmu.util.*;
 
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
@@ -22,46 +20,78 @@ import java.util.*;
  * To change this template use File | Settings | File Templates.
  */
 public class Main {
-    public static void main(String[] args) throws IOException {
-        Stopwatch watch=new Stopwatch().start();
-//        FileWriter writer=new FileWriter("c:\\akbar.csv");
-//        RandomPointGenerator.GenerateDisjointClustersToFile(writer,new Point(new double[]{0,0,0}),5,1000*1000*1,new Random(1234));
+    public static void main(String[] args) throws IOException, InterruptedException {
+//        String file_name=args[0];
+//        Stopwatch watch=new Stopwatch().start();
+//        TestCSV test=new TestCSV();
+//        test.ReadLines(file_name,1000*1000*10);
+//        test.SerialParse();
+//        test.ParallelParse();
+//
+//        System.exit(0);
+//        FileWriter writer=new FileWriter(file_name);
+//        RandomPointGenerator.GenerateDisjointClustersToFile(writer,new Point(new double[]{0,0,0}),5,1000*1000*10,new Random(1234));
 //        writer.close();
 //        System.out.println(watch.elapsedMillis());
 //        watch.reset().start();
-        CSVReader reader= new CSVReader("c:\\akbar.csv");
-        List<Point> points=new ArrayList<Point>();
+//
+//        CSVReader reader= new CSVReader(file_name);
+//        List<Point> points=new ArrayList<Point>();
+//
+//        int count=1000*1000*10;
+//
+//        Point p1=null;
+//        for(int i=0;i<count;i++)
+//        {
+//            p1=reader.ReadNextPoint();
+//            if(p1!=null)
+//                points.add(p1);
+//        }
+//        System.out.println(points.size() +" took  "+ watch.elapsedMillis());
+//
+//
+//        watch.reset().start();
+//        points.clear();
+//        reader= new CSVReader(file_name);
+//
+//        System.in.read();
+//        System.exit(0);
 
-        Point p1=null;
-        while ((p1=reader.ReadNextPoint())!=null&&points.size()<1000*500)
-            points.add(p1);
-        System.out.println(points.size() +" took  "+ watch.elapsedMillis());
-
-
-        watch.reset().start();
-        points.clear();
-        reader= new CSVReader("c:\\akbar.csv");
-
-
-        Collection<Point> p;
-        //while ((p=reader.ReadSomePointInParallel(500*1000,4))!=null&&points.size()<1000*500)
-        p=reader.ReadSomePointInParallel(500*1000,2);
-        points.addAll(p);
-        System.out.println(points.size() +" took  "+ watch.elapsedMillis());
-
+//        Collection<Point> p;
+//        //while ((p=reader.ReadSomePointInParallel(500*1000,4))!=null&&points.size()<1000*500)
+//        int chunk_size=500*1000;
+////        for(int i=0;i<count/chunk_size;i++){
+////            p=reader.ReadSomePointInParallel(chunk_size,4);
+////            points.addAll(p);
+////        }
+//        System.out.println(points.size() +" took  "+ watch.elapsedMillis());
+//
         //System.out.println(watch.elapsedMillis());
         //System.exit(0);
 
-        //int count=1000000;
-        //List<Point> points= RandomPointGenerator.GenerateDisjointClusters(new Point(new double[]{10,10,10}),3,count,new Random(123));
-        //Point center= PointGeometry.ComputeCenter(points);
+        int count=1000*1000*10;
+        int num_clusters=5;
+        int max_iter=7;
+        Stopwatch watch=new Stopwatch().start();
+        List<Point> points= RandomPointGenerator.GenerateDisjointClusters(new Point(new double[]{10,10,10}),num_clusters,count,new Random(123));
+        System.out.println("Random Generation took: "+watch);
+        watch.reset().start();
 
-        //SimpleKMeansClusterer<Point> kmeans=new SimpleKMeansClusterer<Point>(new Random(123));
+        int hala=10240/4/points.get(0).size();
+        for(int i=0;i<points.size()-hala;)
+        {
+            KMeansPlusPlusClusterer<Point> kmpp=new KMeansPlusPlusClusterer<Point>(new Random(123));
+            kmpp.cluster(points.subList(i,i+hala),num_clusters,max_iter);
+            i+=hala;
+        }
+        System.out.println("Serial kmeans++ took: "+watch);
+        watch.reset().start();
 
+        System.in.read();
+        System.exit(0);
         int num_points=0;
-        StreamClusterer<Point> smeans=new StreamClusterer<Point>(3,new Random(123));
-
-        System.out.println("Waiting....");
+        ImprovedStreamClusterer<Point> smeans=new ImprovedStreamClusterer<Point>(num_clusters);
+        smeans.Start();
 
         int chunk_size=1000;
         for(int i=0;i<points.size()-chunk_size;i=i+chunk_size)
@@ -70,24 +100,11 @@ public class Main {
             smeans.AddChunk(chunk);
             num_points+=chunk.size();
         }
-        smeans.AddChunk(new ArrayList<Point>());
+        smeans.InputIsDone();
 
-        long t0=System.currentTimeMillis();
-        //List<Cluster<Point>> res=kmeans.cluster(points,3,7);
-        //System.out.println("Num clusts: " + smeans.getIntermediateCenters().size());
-
-        long t1=System.currentTimeMillis()-t0;
-        System.out.println(t1+"     "+num_points);
-
-        //System.in.read();
-
-        KMeansPlusPlusClusterer<Point> kmeans=new KMeansPlusPlusClusterer<Point>(new Random(123));
-
-        t0=System.currentTimeMillis();
-        List<Cluster<Point>> res=kmeans.cluster(points,3,7);
-        num_points=points.size();
-        t1=System.currentTimeMillis()-t0;
-        System.out.println(t1+"     "+num_points);
+        smeans.WaitTillDone();
+        //smeans.GetIntermediateCenters();
+        System.out.println("Parallel kmeans++ took: "+watch);
 
     }
 }
