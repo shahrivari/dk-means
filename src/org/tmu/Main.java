@@ -21,6 +21,7 @@ import java.util.*;
  */
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
+
 //        String file_name=args[0];
 //        Stopwatch watch=new Stopwatch().start();
 //        TestCSV test=new TestCSV();
@@ -77,32 +78,36 @@ public class Main {
         System.out.println("Random Generation took: "+watch);
         watch.reset().start();
 
-        int hala=10240/4/points.get(0).size();
-        for(int i=0;i<points.size()-hala;)
-        {
-            KMeansPlusPlusClusterer<Point> kmpp=new KMeansPlusPlusClusterer<Point>(new Random(123));
-            kmpp.cluster(points.subList(i,i+hala),num_clusters,max_iter);
-            i+=hala;
-        }
+//        int hala=10240/4/points.get(0).size();
+//        for(int i=0;i<points.size()-hala;)
+//        {
+//            KMeansPlusPlusClusterer<Point> kmpp=new KMeansPlusPlusClusterer<Point>(new Random(123));
+//            kmpp.cluster(points.subList(i,i+hala),num_clusters,max_iter);
+//            i+=hala;
+//        }
+        KMeansPlusPlusClusterer<Point> kmpp=new KMeansPlusPlusClusterer<Point>(new Random(123));
+        kmpp.cluster(points,num_clusters,max_iter);
+
         System.out.println("Serial kmeans++ took: "+watch);
         watch.reset().start();
 
-        System.in.read();
-        System.exit(0);
         int num_points=0;
-        ImprovedStreamClusterer<Point> smeans=new ImprovedStreamClusterer<Point>(num_clusters);
-        smeans.Start();
+        //ImprovedStreamClusterer<Point> smeans=new ImprovedStreamClusterer<Point>(num_clusters);
+        StreamClusterer<Point> smeans=new StreamClusterer<Point>(num_clusters,new Random());
+        //smeans.Start();
 
-        int chunk_size=1000;
+        int chunk_size=10000;
         for(int i=0;i<points.size()-chunk_size;i=i+chunk_size)
         {
             List<Point> chunk=points.subList(i, i + chunk_size);
             smeans.AddChunk(chunk);
             num_points+=chunk.size();
         }
-        smeans.InputIsDone();
+        //smeans.InputIsDone();
+        smeans.AddChunk(new ArrayList<Point>());
 
-        smeans.WaitTillDone();
+        //smeans.WaitTillDone();
+        smeans.getIntermediateCenters();
         //smeans.GetIntermediateCenters();
         System.out.println("Parallel kmeans++ took: "+watch);
 
