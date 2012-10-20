@@ -3,6 +3,7 @@ package org.tmu;
 import com.google.common.base.Stopwatch;
 import org.apache.commons.math3.stat.clustering.Cluster;
 import org.apache.commons.math3.stat.clustering.KMeansPlusPlusClusterer;
+import org.tmu.clustering.DKMeansClusterer;
 import org.tmu.clustering.ImprovedStreamClusterer;
 import org.tmu.clustering.SimpleKMeansClusterer;
 import org.tmu.clustering.StreamClusterer;
@@ -22,8 +23,11 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
 
-//        String file_name=args[0];
-//        Stopwatch watch=new Stopwatch().start();
+        String file_name=args[0];
+        Stopwatch watch=new Stopwatch().start();
+        DKMeansClusterer dkMeansClusterer=new DKMeansClusterer();
+        dkMeansClusterer.cluster(file_name,3,6);
+        System.out.println(watch.elapsedMillis());
 //        TestCSV test=new TestCSV();
 //        test.ReadLines(file_name,1000*1000*10);
 //        test.SerialParse();
@@ -70,46 +74,49 @@ public class Main {
         //System.out.println(watch.elapsedMillis());
         //System.exit(0);
 
-        int count=1000*1000*10;
-        int num_clusters=5;
-        int max_iter=7;
-        Stopwatch watch=new Stopwatch().start();
-        List<Point> points= RandomPointGenerator.GenerateDisjointClusters(new Point(new double[]{10,10,10}),num_clusters,count,new Random(123));
-        System.out.println("Random Generation took: "+watch);
-        watch.reset().start();
-
-//        int hala=10240/4/points.get(0).size();
-//        for(int i=0;i<points.size()-hala;)
+//        int count=1000*1000*10;
+//        int num_clusters=5;
+//        int max_iter=7;
+//        Stopwatch watch=new Stopwatch().start();
+//        List<Point> points=null;
+//
+//        for(count=1000*1000*40;count<=50*1000*1000;count=count*2){
+//            points= RandomPointGenerator.GenerateDisjointClusters(new Point(new double[]{10,10,10}),num_clusters,count,new Random(123));
+//            System.out.println("Random Generation took: "+watch);
+//            for(int y=0;y<1;y++)
 //        {
+//           watch.reset().start();
+//
 //            KMeansPlusPlusClusterer<Point> kmpp=new KMeansPlusPlusClusterer<Point>(new Random(123));
-//            kmpp.cluster(points.subList(i,i+hala),num_clusters,max_iter);
-//            i+=hala;
+//            kmpp.cluster(points,num_clusters,max_iter);
+//            System.out.println("Serial kmeans++ took: "+watch);
+//            System.out.println("Points: "+points.size());
+//            points=null;
+//            Runtime.getRuntime().gc();
+//            watch.reset().start();
+//
+//            int num_points=0;
+//            ImprovedStreamClusterer<Point> smeans=new ImprovedStreamClusterer<Point>(num_clusters);
+//            //StreamClusterer<Point> smeans=new StreamClusterer<Point>(num_clusters,new Random());
+//            smeans.Start();
+//
+//            int chunk_size=10000;
+//            points= RandomPointGenerator.GenerateDisjointClusters(new Point(new double[]{10,10,10}),num_clusters,chunk_size,new Random(123));
+//            for(int i=0;i<count/chunk_size;i++)
+//            {
+//                smeans.AddChunk(points);
+//                num_points+=points.size();
+//            }
+//            smeans.InputIsDone();
+//            //smeans.AddChunk(new ArrayList<Point>());
+//
+//            smeans.WaitTillDone();
+//            //smeans.getIntermediateCenters();
+//            //smeans.GetIntermediateCenters();
+//            System.out.println("Parallel kmeans++ took: "+watch);
+//            System.out.println("Points: "+num_points);
+//            System.out.println("==========================================");
 //        }
-        KMeansPlusPlusClusterer<Point> kmpp=new KMeansPlusPlusClusterer<Point>(new Random(123));
-        kmpp.cluster(points,num_clusters,max_iter);
-
-        System.out.println("Serial kmeans++ took: "+watch);
-        watch.reset().start();
-
-        int num_points=0;
-        //ImprovedStreamClusterer<Point> smeans=new ImprovedStreamClusterer<Point>(num_clusters);
-        StreamClusterer<Point> smeans=new StreamClusterer<Point>(num_clusters,new Random());
-        //smeans.Start();
-
-        int chunk_size=10000;
-        for(int i=0;i<points.size()-chunk_size;i=i+chunk_size)
-        {
-            List<Point> chunk=points.subList(i, i + chunk_size);
-            smeans.AddChunk(chunk);
-            num_points+=chunk.size();
-        }
-        //smeans.InputIsDone();
-        smeans.AddChunk(new ArrayList<Point>());
-
-        //smeans.WaitTillDone();
-        smeans.getIntermediateCenters();
-        //smeans.GetIntermediateCenters();
-        System.out.println("Parallel kmeans++ took: "+watch);
-
+//        }
     }
 }

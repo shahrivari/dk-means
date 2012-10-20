@@ -24,13 +24,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * To change this template use File | Settings | File Templates.
  */
 public class ImprovedStreamClusterer<T extends Clusterable<T>> {
-    PCNG<List<T>, T> pcng;
+    PCNG<Collection<T>, T> pcng;
 
     public ImprovedStreamClusterer(final int clus_count)
     {
-        pcng=new PCNG<List<T>, T>() {
+        pcng=new PCNG<Collection<T>, T>() {
             @Override
-            protected void processItem(List<T> input) {
+            protected void processItem(Collection<T> input) {
                 KMeansPlusPlusClusterer<T> kmpp=new KMeansPlusPlusClusterer<T>(new Random());
                 kmpp.cluster(input,clus_count,7);
             }
@@ -42,7 +42,7 @@ public class ImprovedStreamClusterer<T extends Clusterable<T>> {
         pcng.Start();
     }
 
-    public void AddChunk(List<T> chunk)
+    public void AddChunk(Collection<T> chunk)
     {
         pcng.AddInput(chunk);
     }
