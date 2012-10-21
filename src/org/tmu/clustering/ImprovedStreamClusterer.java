@@ -32,7 +32,9 @@ public class ImprovedStreamClusterer<T extends Clusterable<T>> {
             @Override
             protected void processItem(Collection<T> input) {
                 KMeansPlusPlusClusterer<T> kmpp=new KMeansPlusPlusClusterer<T>(new Random());
-                kmpp.cluster(input,clus_count,7);
+                Collection<Cluster<T>> clusters=kmpp.cluster(input,clus_count,7);
+                for (Cluster<T> cluster:clusters)
+                    resultsQ.add(cluster.getCenter());
             }
         };
 
@@ -54,6 +56,16 @@ public class ImprovedStreamClusterer<T extends Clusterable<T>> {
 
     public void WaitTillDone() throws InterruptedException {
         pcng.WaitTillDone();
+    }
+
+    public Collection<T> GetIntermediateCenters()
+    {
+        try {
+            return pcng.GetResults();
+        } catch (InterruptedException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        return null;
     }
 
 

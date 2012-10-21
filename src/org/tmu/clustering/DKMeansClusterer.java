@@ -2,11 +2,13 @@ package org.tmu.clustering;
 
 import org.apache.commons.math3.stat.clustering.Cluster;
 import org.apache.commons.math3.stat.clustering.Clusterable;
+import org.apache.commons.math3.stat.clustering.KMeansPlusPlusClusterer;
 import org.tmu.util.CSVReader;
 import org.tmu.util.Point;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
@@ -22,14 +24,15 @@ public class DKMeansClusterer  {
 
 
 
-    public List<Cluster<Point>> cluster(String file_name,int cluster_count, int thread_count) throws IOException, InterruptedException {
+    public Collection<Point> cluster(String file_name,int cluster_count, int thread_count) throws IOException, InterruptedException {
         CSVReader csvReader=new CSVReader(file_name);
         ImprovedStreamClusterer<Point> smeans=new ImprovedStreamClusterer<Point>(cluster_count);
         smeans.Start();
 
         Collection<Point> points;
         do{
-            points=csvReader.ReadSomePointInParallel(102400,2);
+            points=csvReader.ReadSomePoint(1024);
+            //points=csvReader.ReadSomePointInParallel(1024*100,2);
             if(points==null)
                 break;
             smeans.AddChunk(points);
@@ -39,7 +42,14 @@ public class DKMeansClusterer  {
 
         smeans.WaitTillDone();
 
-        return null;
+        Collection<Point> centers=smeans.GetIntermediateCenters();
+
+        KMeansPlusPlusClusterer<Point> final_kmpp=new KMeansPlusPlusClusterer<Point>(new Random());
+        ArrayList<Point> final_centers=new ArrayList<Point>();
+        List<Cluster<Point>> final_clusters=final_kmpp.cluster(centers, cluster_count, (int) Math.log(centers.size()));
+        for(Cluster<Point> cluster:final_clusters)
+            final_centers.add(cluster.getCenter());
+        return final_centers;
     }
 
 }

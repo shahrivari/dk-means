@@ -10,6 +10,7 @@ import org.tmu.clustering.StreamClusterer;
 import org.tmu.util.*;
 
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 
@@ -22,12 +23,16 @@ import java.util.*;
  */
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
-
         String file_name=args[0];
         Stopwatch watch=new Stopwatch().start();
+        System.out.println("Sequental Read:"+CSVReader.TimeSequentialFileRead(file_name));
+
         DKMeansClusterer dkMeansClusterer=new DKMeansClusterer();
-        dkMeansClusterer.cluster(file_name,3,6);
+        Collection<Point> res=dkMeansClusterer.cluster(file_name,5, 6);
         System.out.println(watch.elapsedMillis());
+        for(Point p:res)
+            System.out.println(p);
+        return;
 //        TestCSV test=new TestCSV();
 //        test.ReadLines(file_name,1000*1000*10);
 //        test.SerialParse();
@@ -35,7 +40,7 @@ public class Main {
 //
 //        System.exit(0);
 //        FileWriter writer=new FileWriter(file_name);
-//        RandomPointGenerator.GenerateDisjointClustersToFile(writer,new Point(new double[]{0,0,0}),5,1000*1000*10,new Random(1234));
+//        RandomPointGenerator.GenerateDisjointClustersToFile(writer,new Point(new double[]{0,0,0}),5,1000*1000*100,new Random(1234));
 //        writer.close();
 //        System.out.println(watch.elapsedMillis());
 //        watch.reset().start();
