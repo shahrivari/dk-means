@@ -27,26 +27,26 @@ public class Main {
         Stopwatch watch=new Stopwatch().start();
 //        System.out.println("Sequental Read:"+CSVReader.TimeSequentialFileRead(file_name));
 //
-//        DKMeansClusterer dkMeansClusterer=new DKMeansClusterer();
-//        Collection<Point> res=dkMeansClusterer.cluster(file_name,5, 6);
-//        System.out.println(watch.elapsedMillis());
-//        for(Point p:res)
-//            System.out.println(p);
-//        return;
+        DKMeansClusterer dkMeansClusterer=new DKMeansClusterer();
+        Collection<Point> res=dkMeansClusterer.cluster(file_name,5);
+        System.out.println(watch.elapsedMillis());
+        for(Point p:res)
+            System.out.println(p);
+        return;
 //        TestCSV test=new TestCSV();
 //        test.ReadLines(file_name,1000*1000*10);
 //        test.SerialParse();
 //        test.ParallelParse();
 //
 //        System.exit(0);
-        FileWriter writer=new FileWriter(file_name);
-        Point p=new Point(32);
-        for(int i=0;i<32;i++)
-            p.setElement(i,0);
-        RandomPointGenerator.GenerateDisjointClustersToFile(writer,p,5,1000*1000*10,new Random(1234));
-        writer.close();
-        System.out.println(watch.elapsedMillis());
-        watch.reset().start();
+//        FileWriter writer=new FileWriter(file_name);
+//        Point p=new Point(32);
+//        for(int i=0;i<32;i++)
+//            p.setElement(i,0);
+//        RandomPointGenerator.GenerateDisjointClustersToFile(writer,p,5,1000*1000*10,new Random(1234));
+//        writer.close();
+//        System.out.println(watch.elapsedMillis());
+//        watch.reset().start();
 //
 //        CSVReader reader= new CSVReader(file_name);
 //        List<Point> points=new ArrayList<Point>();

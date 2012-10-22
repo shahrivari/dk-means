@@ -22,16 +22,14 @@ import java.util.Random;
  */
 public class DKMeansClusterer  {
 
-
-
-    public Collection<Point> cluster(String file_name,int cluster_count, int thread_count) throws IOException, InterruptedException {
+    public static Collection<Point> cluster(String file_name,int cluster_count, int thread_count, int chunk_size, int chunk_iteration_count) throws IOException, InterruptedException {
         CSVReader csvReader=new CSVReader(file_name);
-        ImprovedStreamClusterer<Point> smeans=new ImprovedStreamClusterer<Point>(cluster_count);
+        ImprovedStreamClusterer<Point> smeans=new ImprovedStreamClusterer<Point>(cluster_count,chunk_iteration_count);
         smeans.Start();
 
         Collection<Point> points;
         do{
-            points=csvReader.ReadSomePoint(1024);
+            points=csvReader.ReadSomePoint(chunk_size);
             //points=csvReader.ReadSomePointInParallel(1024*100,2);
             if(points==null)
                 break;
@@ -51,5 +49,10 @@ public class DKMeansClusterer  {
             final_centers.add(cluster.getCenter());
         return final_centers;
     }
+
+    public static Collection<Point> cluster(String file_name,int cluster_count) throws IOException, InterruptedException {
+        return cluster(file_name,cluster_count,Runtime.getRuntime().availableProcessors(),1024,10);
+    }
+
 
 }

@@ -3,18 +3,10 @@ package org.tmu.clustering;
 import org.apache.commons.math3.stat.clustering.Cluster;
 import org.apache.commons.math3.stat.clustering.Clusterable;
 import org.apache.commons.math3.stat.clustering.KMeansPlusPlusClusterer;
-import org.tmu.util.PCNG;
-import org.tmu.util.Point;
+import org.tmu.util.ParallelProducerConsumer;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,15 +16,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * To change this template use File | Settings | File Templates.
  */
 public class ImprovedStreamClusterer<T extends Clusterable<T>> {
-    PCNG<Collection<T>, T> pcng;
+    ParallelProducerConsumer<Collection<T>, T> parallelProducerConsumer;
 
-    public ImprovedStreamClusterer(final int clus_count)
+    public ImprovedStreamClusterer(final int cluster_count, final int chunk_iteration)
     {
-        pcng=new PCNG<Collection<T>, T>() {
+        parallelProducerConsumer =new ParallelProducerConsumer<Collection<T>, T>() {
             @Override
             protected void processItem(Collection<T> input) {
                 KMeansPlusPlusClusterer<T> kmpp=new KMeansPlusPlusClusterer<T>(new Random());
-                Collection<Cluster<T>> clusters=kmpp.cluster(input,clus_count,7);
+                Collection<Cluster<T>> clusters=kmpp.cluster(input,cluster_count,chunk_iteration);
                 for (Cluster<T> cluster:clusters)
                     resultsQ.add(cluster.getCenter());
             }
@@ -40,28 +32,40 @@ public class ImprovedStreamClusterer<T extends Clusterable<T>> {
 
     }
 
-    public void Start(){
-        pcng.Start();
+    public ImprovedStreamClusterer(final int cluster_count){
+        parallelProducerConsumer =new ParallelProducerConsumer<Collection<T>, T>() {
+            @Override
+            protected void processItem(Collection<T> input) {
+                KMeansPlusPlusClusterer<T> kmpp=new KMeansPlusPlusClusterer<T>(new Random());
+                Collection<Cluster<T>> clusters=kmpp.cluster(input,cluster_count,(int)Math.log(input.size()));
+                for (Cluster<T> cluster:clusters)
+                    resultsQ.add(cluster.getCenter());
+            }
+        };
     }
 
-    public void AddChunk(Collection<T> chunk)
-    {
-        pcng.AddInput(chunk);
+
+    public void Start(){
+        parallelProducerConsumer.Start();
+    }
+
+    public void AddChunk(Collection<T> chunk) throws InterruptedException {
+        parallelProducerConsumer.AddInput(chunk);
     }
 
     public void InputIsDone()
     {
-        pcng.InputIsDone();
+        parallelProducerConsumer.InputIsDone();
     }
 
     public void WaitTillDone() throws InterruptedException {
-        pcng.WaitTillDone();
+        parallelProducerConsumer.WaitTillDone();
     }
 
     public Collection<T> GetIntermediateCenters()
     {
         try {
-            return pcng.GetResults();
+            return parallelProducerConsumer.GetResults();
         } catch (InterruptedException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }

@@ -2,12 +2,11 @@ package org.tmu;
 
 import com.google.common.base.Stopwatch;
 import org.apache.commons.math3.stat.clustering.KMeansPlusPlusClusterer;
-import org.tmu.util.PCNG;
+import org.tmu.util.ParallelProducerConsumer;
 import org.tmu.util.Point;
 import org.tmu.util.RandomPointGenerator;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
@@ -23,7 +22,7 @@ public class Test {
         final int count=1000;
         int size=1000;
 
-        PCNG<List<Point>,Point> pcng=new PCNG<List<Point>, Point>() {
+        ParallelProducerConsumer<List<Point>,Point> parallelProducerConsumer =new ParallelProducerConsumer<List<Point>, Point>() {
             @Override
             protected void processItem(List<Point> input) {
                 KMeansPlusPlusClusterer<Point> kmpp=new KMeansPlusPlusClusterer<Point>(new Random());
@@ -38,9 +37,9 @@ public class Test {
             {
                 List<Point> rand= RandomPointGenerator.GenerateSphere(new Point(new double[]{j,j,j}),count,new Random());
                 pointList.addAll(rand);
-                pcng.AddInput(rand);
+                parallelProducerConsumer.AddInput(rand);
             }
-        pcng.InputIsDone();
+        parallelProducerConsumer.InputIsDone();
 
         KMeansPlusPlusClusterer<Point> kmpp=new KMeansPlusPlusClusterer<Point>(new Random());
 
@@ -51,8 +50,8 @@ public class Test {
         watch.reset().start();
 
 
-        pcng.Start();
-        pcng.WaitTillDone();
+        parallelProducerConsumer.Start();
+        parallelProducerConsumer.WaitTillDone();
 
         System.out.println("Parallel took:"+watch.elapsedMillis());
         watch.reset().start();

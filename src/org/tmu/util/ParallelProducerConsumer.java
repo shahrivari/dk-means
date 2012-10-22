@@ -13,83 +13,79 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Time: 7:24 PM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class ParallelProducerConsumer<InputType,OutputType> {
-    BlockingQueue<InputType> inputQ=new LinkedBlockingQueue<InputType>(1024);
-    ConcurrentLinkedQueue<OutputType> resultsQ=new ConcurrentLinkedQueue<OutputType>();
+public abstract class ParallelProducerConsumer<InputType, OutputType> {
+    BlockingQueue<InputType> inputQ = new LinkedBlockingQueue<InputType>();
+    //ConcurrentLinkedQueue<InputType> inputQ=new ConcurrentLinkedQueue<InputType>();
+    protected ConcurrentLinkedQueue<OutputType> resultsQ = new ConcurrentLinkedQueue<OutputType>();
 
     CountDownLatch liveThreadsCount;
-    List<Thread> threadList=new ArrayList<Thread>();
+    List<Thread> threadList = new ArrayList<Thread>();
     int threadCount;
-    AtomicBoolean inputRemains =new AtomicBoolean(true);
+    AtomicBoolean inputRemains = new AtomicBoolean(true);
+    int inputQueueLimit =Integer.MAX_VALUE;
 
-    abstract void processItem(InputType input);
+    abstract protected void processItem(InputType input);
 
-    ParallelProducerConsumer()
-    {
-        threadCount=Runtime.getRuntime().availableProcessors();
+    public ParallelProducerConsumer() {
+        this(Runtime.getRuntime().availableProcessors(), 1024);
+    }
+
+    public ParallelProducerConsumer(int thread_count, int queue_limit) {
+        threadCount = thread_count;
+        inputQueueLimit=queue_limit;
         initThreads();
     }
 
-    ParallelProducerConsumer(int thread_count)
-    {
-        threadCount=thread_count;
-        initThreads();
-    }
-
-    public void InputIsDone()
-    {
+    public void InputIsDone() {
         inputRemains.set(false);
     }
 
-    private void initThreads()
-    {
-        liveThreadsCount=new CountDownLatch(threadCount);
-        for(int i=0;i<threadCount;i++)
-        {
-            Runnable r=new Runnable() {
+    private void initThreads() {
+        liveThreadsCount = new CountDownLatch(threadCount);
+        for (int i = 0; i < threadCount; i++) {
+            Runnable r = new Runnable() {
                 public void run() {
-                    try{
-                        while (true){
-                            InputType chunk=inputQ.poll(10, TimeUnit.MILLISECONDS);
-                            if(chunk==null){
+                    while (true) {
+                        try {
+                            InputType chunk = inputQ.poll(1, TimeUnit.MILLISECONDS);
+                            if (chunk == null) {
                                 //System.out.println("Consumer: I am IDLE!!!!!");
-                                if(inputRemains.get())
+                                if (inputRemains.get()) {
+//                                    //System.out.println("Consumer: I am IDLE!!!!!");
+//                                      Thread.sleep(1);
                                     continue;
-                                else{
+                                } else {
                                     liveThreadsCount.countDown();
                                     return;
                                 }
                             }
                             processItem(chunk);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                         }
-                    }catch (Exception e) {
-                        System.out.println("Exception Occurred!");
-                        e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-                    }
-                    finally {
-                        //System.out.println("Sure????!");
-                        //liveThreadsCount.countDown();
+
                     }
                 }
             };
-            Thread t=new Thread(r);
+            Thread t = new Thread(r);
             threadList.add(t);
         }
     }
 
-    public void Start()
-    {
-        for(Thread t:threadList)
+    public void Start() {
+        for (Thread t : threadList)
             t.start();
     }
 
-    public void AddInput(InputType input)
-    {
+    public void AddInput(InputType input) throws InterruptedException {
+        if(inputQ.size()>inputQueueLimit){
+            Thread.sleep(1);
+            System.out.println("Waiting for queue!!!!");
+        }
         inputQ.add(input);
     }
 
-    public void AddAllInput(Collection<InputType> inputs)
-    {
+    public void AddAllInput(Collection<InputType> inputs) {
         inputQ.addAll(inputs);
     }
 
@@ -99,7 +95,7 @@ public abstract class ParallelProducerConsumer<InputType,OutputType> {
     }
 
     public void WaitTillDone(long timeout, TimeUnit timeUnit) throws InterruptedException {
-        liveThreadsCount.await(timeout,timeUnit);
+        liveThreadsCount.await(timeout, timeUnit);
     }
 
     public Collection<OutputType> GetResults() throws InterruptedException {
@@ -107,7 +103,7 @@ public abstract class ParallelProducerConsumer<InputType,OutputType> {
         return resultsQ;
     }
 
-    public Collection<OutputType> GetResults(long timeout,TimeUnit timeUnit) throws InterruptedException {
+    public Collection<OutputType> GetResults(long timeout, TimeUnit timeUnit) throws InterruptedException {
         WaitTillDone(timeout, timeUnit);
         return resultsQ;
     }

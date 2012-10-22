@@ -25,6 +25,23 @@ public class CSVReader {
     BufferedReader reader;
     FileReader fileReader;
 
+    ParallelProducerConsumer<List<String>,Point> producerConsumer=new ParallelProducerConsumer<List<String>, Point>() {
+        @Override
+        protected void processItem(List<String> input) {
+            //System.out.println("HEre");
+            List<Point> points=new ArrayList<Point>(input.size());
+            for(String line:input){
+                String[] tokens=line.split(",");
+                double [] point=new double[tokens.length];
+                for(int i=0;i<point.length;i++)
+                    point[i]=Double.parseDouble(tokens[i]);
+                points.add(new Point(point));
+            }
+            resultsQ.addAll(points);
+            //System.out.println("Added some: "+points.size());
+        }
+    };
+
     public void close() throws IOException {
         reader.close();
         fileReader.close();
@@ -89,30 +106,12 @@ public class CSVReader {
     }
 
 
-    public Collection<Point> ReadSomePointInParallel(int count, int threads_count)throws IOException
-    {
-        int chunk_size=1024*50;
-        //List<List<String>> chunks=new ArrayList<List<String>>();
-        //final ConcurrentLinkedQueue<Point> queue=new ConcurrentLinkedQueue<Point>();
-        ParallelProducerConsumer<List<String>,Point> producerConsumer=new ParallelProducerConsumer<List<String>, Point>() {
-            @Override
-            void processItem(List<String> input) {
-                //System.out.println("HEre");
-                List<Point> points=new ArrayList<Point>(input.size());
-                for(String line:input){
-                    String[] tokens=line.split(",");
-                    double [] point=new double[tokens.length];
-                    for(int i=0;i<point.length;i++)
-                        point[i]=Double.parseDouble(tokens[i]);
-                    points.add(new Point(point));
-                }
-                resultsQ.addAll(points);
-                //System.out.println("Added some: "+points.size());
-            }
-        };
+    public Collection<Point> ReadSomePointInParallel(int count, int chunk_size, int threads_count) throws IOException, InterruptedException {
+        if(count<1024)
+            return ReadSomePoint(count);
 
         int read_lines=0;
-        //producerConsumer.Start();
+        producerConsumer.Start();
         Stopwatch watch=new Stopwatch().start();
         while (read_lines<count)
         {
@@ -126,7 +125,6 @@ public class CSVReader {
             }
             if(lines.size()==0)
                 break;
-            //chunks.add(lines);
             producerConsumer.AddInput(lines);
             read_lines+=lines.size();
         }
@@ -136,9 +134,9 @@ public class CSVReader {
             return null;
 
 
-        //producerConsumer.AddAllInput(chunks);
         producerConsumer.InputIsDone();
         producerConsumer.Start();
+        producerConsumer.WaitTillDone();
         try {
             return producerConsumer.GetResults();
         } catch (InterruptedException e) {
