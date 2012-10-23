@@ -10,8 +10,7 @@ import org.tmu.clustering.StreamClusterer;
 import org.tmu.util.*;
 
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -25,10 +24,27 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         String file_name=args[0];
         Stopwatch watch=new Stopwatch().start();
+
+//        DataOutputStream out=new DataOutputStream(new BufferedOutputStream(new FileOutputStream("z:\\test.dat")));
+//        out.writeInt(55);
+//        out.flush();
+//        DataInputStream in=new DataInputStream(new BufferedInputStream(new FileInputStream("z:\\binary.dat"),64*1024));
+//        int x=in.readInt();
+//        System.exit(0);
+
+
+
+
+//        BinaryFormatWriter writer=new BinaryFormatWriter("z:\\binary.dat");
+//        RandomPointGenerator.GenerateSphereToFile(writer,new Point(new double[]{0,0,0,0,0}),20*25*1024*1024,new Random());
+//        BinaryFormatReader.TimeSequentialFileRead("z:\\binary.dat");
+//        System.out.println(watch);
+//        System.exit(0);
+
 //        System.out.println("Sequental Read:"+CSVReader.TimeSequentialFileRead(file_name));
 //
         DKMeansClusterer dkMeansClusterer=new DKMeansClusterer();
-        Collection<Point> res=dkMeansClusterer.cluster(file_name,5);
+        Collection<Point> res=dkMeansClusterer.cluster("z:\\binary.dat",5,4,10240,10);
         System.out.println(watch.elapsedMillis());
         for(Point p:res)
             System.out.println(p);

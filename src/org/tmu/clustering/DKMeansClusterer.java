@@ -3,6 +3,7 @@ package org.tmu.clustering;
 import org.apache.commons.math3.stat.clustering.Cluster;
 import org.apache.commons.math3.stat.clustering.Clusterable;
 import org.apache.commons.math3.stat.clustering.KMeansPlusPlusClusterer;
+import org.tmu.util.BinaryFormatReader;
 import org.tmu.util.CSVReader;
 import org.tmu.util.Point;
 
@@ -23,14 +24,17 @@ import java.util.Random;
 public class DKMeansClusterer  {
 
     public static Collection<Point> cluster(String file_name,int cluster_count, int thread_count, int chunk_size, int chunk_iteration_count) throws IOException, InterruptedException {
-        CSVReader csvReader=new CSVReader(file_name);
+        //CSVReader csvReader=new CSVReader(file_name);
+        //csvReader.StartPool(2,1024);
+        BinaryFormatReader reader=new BinaryFormatReader(file_name);
         ImprovedStreamClusterer<Point> smeans=new ImprovedStreamClusterer<Point>(cluster_count,chunk_iteration_count);
         smeans.Start();
 
         Collection<Point> points;
         do{
-            points=csvReader.ReadSomePoint(chunk_size);
-            //points=csvReader.ReadSomePointInParallel(1024*100,2);
+            //points=csvReader.ReadSomePoint(chunk_size);
+            //points=csvReader.ReadSomePointInParallel(1024*100,4);
+            points=reader.readSomePoint(chunk_size);
             if(points==null)
                 break;
             smeans.AddChunk(points);
@@ -51,7 +55,7 @@ public class DKMeansClusterer  {
     }
 
     public static Collection<Point> cluster(String file_name,int cluster_count) throws IOException, InterruptedException {
-        return cluster(file_name,cluster_count,Runtime.getRuntime().availableProcessors(),1024,10);
+        return cluster(file_name,cluster_count,Runtime.getRuntime().availableProcessors(),102400,10);
     }
 
 

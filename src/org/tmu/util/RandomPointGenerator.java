@@ -64,6 +64,18 @@ public class RandomPointGenerator {
         writer.flush();
     }
 
+    static public void GenerateSphereToFile(BinaryFormatWriter writer,Point center, int point_count, Random random) throws IOException {
+        if(random==null)random=new Random();
+        for(int i=0;i<point_count;i++)
+        {
+            double[] elements=new double[center.size()];
+            for(int j=0;j<center.size();j++)
+                elements[j]=random.nextDouble()+center.getElement(j);
+            writer.writePoint(elements);
+        }
+        writer.flush();
+    }
+
     static public void GenerateDisjointClustersToFile(FileWriter writer, Point first_center,int cluster_count, int point_count,Random random)
             throws IOException {
         int count=point_count/cluster_count;

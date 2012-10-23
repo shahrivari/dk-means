@@ -25,26 +25,18 @@ public class CSVReader {
     BufferedReader reader;
     FileReader fileReader;
 
-    ParallelProducerConsumer<List<String>,Point> producerConsumer=new ParallelProducerConsumer<List<String>, Point>() {
-        @Override
-        protected void processItem(List<String> input) {
-            //System.out.println("HEre");
-            List<Point> points=new ArrayList<Point>(input.size());
-            for(String line:input){
-                String[] tokens=line.split(",");
-                double [] point=new double[tokens.length];
-                for(int i=0;i<point.length;i++)
-                    point[i]=Double.parseDouble(tokens[i]);
-                points.add(new Point(point));
-            }
-            resultsQ.addAll(points);
-            //System.out.println("Added some: "+points.size());
-        }
-    };
+    ParallelStreamConsumer<List<String>,Point> producerConsumer=null;
 
     public void close() throws IOException {
+        if (producerConsumer!=null)
+            producerConsumer.Stop();
         reader.close();
         fileReader.close();
+    }
+    
+    @Override
+    protected void finalize() throws IOException {
+        close();
     }
 
 
@@ -52,6 +44,34 @@ public class CSVReader {
         fileReader =new FileReader(file_name);
         reader=new BufferedReader(fileReader);
     }
+
+    public void StartPool(int thread_count,int queue_limit){
+        producerConsumer=new ParallelStreamConsumer<List<String>, Point>(thread_count,queue_limit) {
+            @Override
+            protected void processItem(List<String> input) {
+                //System.out.println("HEre");
+                List<Point> points=new ArrayList<Point>(input.size());
+                for(String line:input){
+                    String[] tokens=line.split(",");
+                    double [] point=new double[tokens.length];
+                    for(int i=0;i<point.length;i++)
+                        point[i]=Double.parseDouble(tokens[i]);
+                    points.add(new Point(point));
+                }
+                resultsQ.addAll(points);
+                //System.out.println("Added some: "+points.size());
+            }
+        };
+    }
+
+    public void StartPool(){
+        StartPool(Runtime.getRuntime().availableProcessors(),1024);
+    }
+
+    public void StopPool(){
+        producerConsumer.Stop();
+    }
+
 
     private String readNextNonEmptyLine() throws IOException {
         String line="";
@@ -105,13 +125,30 @@ public class CSVReader {
         return watch;
     }
 
+    public static Stopwatch TimeParallelFileRead(String file_name, int thread_count) throws IOException, InterruptedException {
+        CSVReader csvReader=new CSVReader(file_name);
+        csvReader.StartPool(thread_count,1024);
+        Stopwatch watch=new Stopwatch().start();
+        Collection<Point> points;
+        while (true){
+            points=csvReader.ReadSomePointInParallel(102400,1024);
+            if(points==null)
+                break;
+        }
+        csvReader.close();
+        watch.stop();
+        return watch;
+    }
 
-    public Collection<Point> ReadSomePointInParallel(int count, int chunk_size, int threads_count) throws IOException, InterruptedException {
+
+
+    public Collection<Point> ReadSomePointInParallel(int count, int chunk_size) throws IOException, InterruptedException {
+        if(producerConsumer==null)
+            throw new ExceptionInInitializerError("Threadpool is not started!");
         if(count<1024)
             return ReadSomePoint(count);
 
         int read_lines=0;
-        producerConsumer.Start();
         Stopwatch watch=new Stopwatch().start();
         while (read_lines<count)
         {
@@ -133,16 +170,20 @@ public class CSVReader {
         if(read_lines==0)
             return null;
 
-
-        producerConsumer.InputIsDone();
-        producerConsumer.Start();
-        producerConsumer.WaitTillDone();
+        producerConsumer.WaitTillIdle();
         try {
-            return producerConsumer.GetResults();
+            return producerConsumer.GetAndClearResults();
         } catch (InterruptedException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             return null;
         }
+    }
+
+    public static void main(String[] args) throws IOException, InterruptedException {
+        String file_name=args[0];
+        System.out.println(TimeSequentialFileRead(file_name));
+        System.out.println(TimeParallelFileRead(file_name,4));
+
     }
 
 

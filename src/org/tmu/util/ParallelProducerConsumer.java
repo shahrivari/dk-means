@@ -27,7 +27,7 @@ public abstract class ParallelProducerConsumer<InputType, OutputType> {
     abstract protected void processItem(InputType input);
 
     public ParallelProducerConsumer() {
-        this(Runtime.getRuntime().availableProcessors(), 1024);
+        this(Runtime.getRuntime().availableProcessors(), 10240);
     }
 
     public ParallelProducerConsumer(int thread_count, int queue_limit) {
@@ -80,7 +80,7 @@ public abstract class ParallelProducerConsumer<InputType, OutputType> {
     public void AddInput(InputType input) throws InterruptedException {
         if(inputQ.size()>inputQueueLimit){
             Thread.sleep(1);
-            System.out.println("Waiting for queue!!!!");
+            System.out.println("Waiting for queueeeeeeeeeeeeeeeeeeeeeeeeee!!!!");
         }
         inputQ.add(input);
     }
