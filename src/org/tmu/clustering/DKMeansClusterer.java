@@ -55,7 +55,7 @@ public class DKMeansClusterer  {
     }
 
     public static Collection<Point> cluster(String file_name,int cluster_count) throws IOException, InterruptedException {
-        return cluster(file_name,cluster_count,Runtime.getRuntime().availableProcessors(),102400,10);
+        return cluster(file_name,cluster_count,Runtime.getRuntime().availableProcessors()-1,102400,10);
     }
 
 
