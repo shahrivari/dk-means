@@ -35,7 +35,7 @@ public class Main {
 //        System.out.println("Sequental Read:"+CSVReader.TimeSequentialFileRead(file_name));
 //
         DKMeansClusterer dkMeansClusterer=new DKMeansClusterer();
-        Collection<Point> res=dkMeansClusterer.cluster("z:\\binary.dat",5,4,1024,10);
+        Collection<Point> res=dkMeansClusterer.cluster("x:\\conv.dat",5,4,1024,10);
         System.out.println(watch.elapsedMillis());
         for(Point p:res)
             System.out.println(p);

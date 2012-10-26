@@ -1,6 +1,7 @@
 package org.tmu.util;
 
 import java.io.*;
+import java.util.Collection;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,6 +23,10 @@ public class BinaryFormatWriter {
         stream.flush();
     }
 
+    public void close() throws IOException {
+        stream.close();
+    }
+
     public void writePoint(Point p) throws IOException {
         if(pointLength==0){
             pointLength=p.size();
@@ -41,6 +46,11 @@ public class BinaryFormatWriter {
 
         for(int i=0;i<pointLength;i++)
             stream.writeDouble(p[i]);
+    }
+
+    public void writeSomePoints(Collection<Point> points) throws IOException {
+        for(Point p:points)
+            writePoint(p);
     }
 
 }

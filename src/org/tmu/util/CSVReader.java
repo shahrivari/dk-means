@@ -89,8 +89,14 @@ public class CSVReader {
         if(line==null)return null;
         String[] tokens=line.split(",");
         double [] point=new double[tokens.length];
+
         for(int i=0;i<point.length;i++)
+        try{
             point[i]=Double.parseDouble(tokens[i]);
+        }catch (NumberFormatException e){
+            e.printStackTrace();
+            System.out.println("OOOOOOPSPPSSS:  "+ point[i]);
+        }
         return new Point(point);
     }
 
@@ -181,9 +187,55 @@ public class CSVReader {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         String file_name=args[0];
-        System.out.println(TimeSequentialFileRead(file_name));
-        System.out.println(TimeParallelFileRead(file_name,4));
+//        System.out.println(TimeSequentialFileRead(file_name));
+//        System.out.println(TimeParallelFileRead(file_name,4));
+//
+        convertCSVtoBinary("z:\\household_power_consumption.csv","x:\\conv.dat");
 
+    }
+
+    public static void convertCSVtoBinary(final String csv_path, final String binary_path) throws IOException, InterruptedException {
+        convertCSVtoBinary(csv_path,binary_path,32*1024*1024);
+    }
+
+    public static void convertCSVtoBinary(final String csv_path, final String binary_path, int bufferSize) throws IOException, InterruptedException {
+        Stopwatch watch=new Stopwatch().start();
+        CSVReader csvReader=new CSVReader(csv_path);
+        BinaryFormatWriter writer=new BinaryFormatWriter(binary_path);
+
+        //read first point
+        Point p=csvReader.ReadNextPoint();
+        if(p==null){
+            System.out.println("Source file is empty!");
+            return;
+        }
+
+        writer.writePoint(p);
+
+        int written=1;
+
+        System.out.println("Point size is: " + p.size());
+        int parallel_read_count=bufferSize/(8*p.size());
+        System.out.println("Will read "+parallel_read_count+" points in parallel at each step.");
+        System.out.flush();
+        csvReader.StartPool();
+
+        Collection<Point> points;
+        while (true){
+            points=csvReader.ReadSomePointInParallel(parallel_read_count,8192/p.size());
+            //points=csvReader.ReadSomePoint(parallel_read_count);
+            if(points==null)
+                break;
+            writer.writeSomePoints(points);
+            written+=points.size();
+            System.out.println("Written "+written+" points.");
+        }
+
+
+        csvReader.StopPool();
+        csvReader.close();
+        writer.close();
+        System.out.println("Time spent: "+watch.stop());
     }
 
 
