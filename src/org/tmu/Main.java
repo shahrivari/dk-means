@@ -1,12 +1,8 @@
 package org.tmu;
 
 import com.google.common.base.Stopwatch;
-import org.apache.commons.math3.stat.clustering.Cluster;
-import org.apache.commons.math3.stat.clustering.KMeansPlusPlusClusterer;
 import org.tmu.clustering.DKMeansClusterer;
-import org.tmu.clustering.ImprovedStreamClusterer;
-import org.tmu.clustering.SimpleKMeansClusterer;
-import org.tmu.clustering.StreamClusterer;
+import org.tmu.clustering.InMemClusteringTester;
 import org.tmu.util.*;
 
 
@@ -34,11 +30,16 @@ public class Main {
 
 //        System.out.println("Sequental Read:"+CSVReader.TimeSequentialFileRead(file_name));
 //
+        InMemClusteringTester.doTest("Z:\\household.csv", 7, 20);
+        System.exit(0);
+
+        watch.reset().start();
         DKMeansClusterer dkMeansClusterer=new DKMeansClusterer();
-        Collection<Point> res=dkMeansClusterer.cluster("x:\\conv.dat",5,4,1024,10);
-        System.out.println(watch.elapsedMillis());
+        Collection<Point> res=dkMeansClusterer.clusterCSVFile("Z:\\skin.csv", 23, 4, 1024, 20);
+        System.out.println(watch);
         for(Point p:res)
             System.out.println(p);
+        DKMeansClusterer.printStat("Z:\\household_power_consumption.csv",res);
         return;
 //        TestCSV test=new TestCSV();
 //        test.ReadLines(file_name,1000*1000*10);
@@ -103,7 +104,7 @@ public class Main {
 //           watch.reset().start();
 //
 //            KMeansPlusPlusClusterer<Point> kmpp=new KMeansPlusPlusClusterer<Point>(new Random(123));
-//            kmpp.cluster(points,num_clusters,max_iter);
+//            kmpp.clusterBinaryFile(points,num_clusters,max_iter);
 //            System.out.println("Serial kmeans++ took: "+watch);
 //            System.out.println("Points: "+points.size());
 //            points=null;

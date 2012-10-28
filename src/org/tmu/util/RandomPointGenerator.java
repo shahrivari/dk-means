@@ -88,4 +88,16 @@ public class RandomPointGenerator {
         writer.flush();
     }
 
+    static public void GenerateDisjointClustersToFile(BinaryFormatWriter writer, Point first_center,int cluster_count, int point_count,Random random)
+            throws IOException {
+        int count=point_count/cluster_count;
+        for(int j=0;j<cluster_count;j++)
+        {
+            for(int i=0;i<first_center.size();i++)
+                first_center.setElement(i,first_center.getElement(i)+10*j);
+            RandomPointGenerator.GenerateSphereToFile(writer, first_center, count, random);
+        }
+        writer.flush();
+    }
+
 }

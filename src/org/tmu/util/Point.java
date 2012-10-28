@@ -101,4 +101,16 @@ public class Point implements Clusterable<Point>{
 
         return result;
     }
+
+    public Point findNearest(Collection<Point> points){
+        Point result=null;
+        double  min_dis=Double.MAX_VALUE;
+        for( Point p:points){
+            if(distanceFrom(p)<min_dis){
+                min_dis=distanceFrom(p);
+                result=p;
+            }
+        }
+        return result;
+    }
 }

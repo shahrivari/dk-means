@@ -238,5 +238,19 @@ public class CSVReader {
         System.out.println("Time spent: "+watch.stop());
     }
 
+    public static List<Point> readWholeFile(String file_name) throws IOException {
+        CSVReader csvReader=new CSVReader(file_name);
+        Collection<Point> points;
+        List<Point> result=new ArrayList<Point>(1024);
+
+        do{
+            points=csvReader.ReadSomePoint(1024);
+            if(points==null)
+                break;
+            result.addAll(points);
+        }while (points.size()>0);
+        return result;
+    }
+
 
 }
