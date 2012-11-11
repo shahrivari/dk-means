@@ -68,11 +68,11 @@ public class Point implements Clusterable<Point>{
         builder.append("(");
         for(int i=0;i<elements.length;i++){
             //builder.append(threeDec.format(elements[i])).append(",");
-            //some dirty code to convert double to string with 3 precision
+            //some dirty code to convert double to string with 4 precision
             String s=Double.toString(elements[i]);
             int dot_place=s.indexOf('.');
-            if(dot_place+4<s.length())
-                s=s.substring(0,dot_place+4);
+            if(dot_place+5<s.length())
+                s=s.substring(0,dot_place+5);
             builder.append(s).append(",");
         }
         builder.deleteCharAt(builder.length()-1);

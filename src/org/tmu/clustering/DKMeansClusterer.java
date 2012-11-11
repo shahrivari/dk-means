@@ -111,25 +111,7 @@ public class DKMeansClusterer  {
         return clusterList;
     }
 
-    public static void printStat(String file_name, Collection<Point> centers) throws IOException {
-        CSVReader csvReader=new CSVReader(file_name);
-        double sse=0;
-
-        Collection<Point> points;
-        do{
-            points=csvReader.ReadSomePoint(1024);
-            if(points==null)
-                break;
-            for(Point p:points){
-                sse+=p.distanceFrom(p.findNearest(centers));
-            }
-
-        }while (points.size()>0);
-
-        System.out.println("SSE :" + sse);
-    }
-
-    public static Collection<Point> cluster(String file_name,int cluster_count) throws IOException, InterruptedException {
+    public static Collection<Point> clusterFile(String file_name, int cluster_count) throws IOException, InterruptedException {
         if(file_name.endsWith(".csv")){
             int point_count=DataSetInfo.estimatePointCountCSV(file_name);
             int point_size=DataSetInfo.pointSizeCSV(file_name);

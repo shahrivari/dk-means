@@ -2,7 +2,6 @@ package org.tmu;
 
 import com.google.common.base.Stopwatch;
 import org.tmu.clustering.DKMeansClusterer;
-import org.tmu.util.InMemClusteringTester;
 import org.tmu.util.*;
 
 
@@ -20,6 +19,8 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         String file_name=args[0];
         Stopwatch watch=new Stopwatch().start();
+        OnDiskClusteringTester.generateBinaryDatasets("c:\\alaki");
+        System.exit(0);
 
 
 //        BinaryFormatWriter writer=new BinaryFormatWriter("z:\\binary.dat");
@@ -39,7 +40,7 @@ public class Main {
         //System.exit(0);
         watch.reset().start();
         DKMeansClusterer dkMeansClusterer1=new DKMeansClusterer();
-        Collection<Point> res=dkMeansClusterer1.cluster("z:\\big.bin",10);
+        Collection<Point> res=dkMeansClusterer1.clusterFile("z:\\big.bin", 10);
         System.out.println(watch);
         for(Point p:res)
             System.out.println(p);
