@@ -29,6 +29,7 @@ public class BinaryFormatWriter {
 
     public void writePoint(Point p) throws IOException {
         if(pointLength==0){
+            stream.writeBytes("BIN");
             pointLength=p.size();
             stream.writeInt(pointLength);
             stream.flush();

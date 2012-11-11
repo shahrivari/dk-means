@@ -15,43 +15,59 @@ import java.util.Random;
  */
 public class RandomPointGenerator {
 
-    static public List<Point> GenerateSphere(Point center, int point_count, Random random)
-    {
-        if(random==null)random=new Random();
-        List<Point> result=new ArrayList<Point>(point_count);
-
-        for(int i=0;i<point_count;i++)
+    static private List<Point> generateCenters(int center_count, int point_size, Random random){
+        List<Point> centers=new ArrayList<Point>();
+        for(int j=0;j<center_count;j++)
         {
-            double[] elements=new double[center.size()];
-            for(int j=0;j<center.size();j++)
-                elements[j]=random.nextDouble()+center.getElement(j);
-            result.add(new Point(elements));
+            Point center=new Point(point_size);
+            for(int i=0;i<point_size;i++)
+                center.setElement(i,random.nextInt(20));
+            centers.add(center);
         }
-
-        return result;
+        return centers;
     }
 
-    static public List<Point> GenerateDisjointClusters(Point first_center, int cluster_count,int point_count, Random random)
+    static public List<Point> GenerateDisjointClusters(int cluster_count,int point_count, int point_size, Random random)
     {
-        List<Point> points= new ArrayList<Point>();
-        int count=point_count/cluster_count;
-        for(int j=0;j<cluster_count;j++){
-            for(int i=0;i<first_center.size();i++)
-                first_center.setElement(i,first_center.getElement(i)+10*j);
-            points.addAll(RandomPointGenerator.GenerateSphere(first_center,count,random));
+        ArrayList<Point> points=new ArrayList<Point>(point_count);
+        List<Point> centers=generateCenters(cluster_count,point_size,random);
+        for(int i=0;i<point_count;i++)
+        {
+            Point center=centers.get(random.nextInt(centers.size()));
+            Point p=Point.generateRandom(center,random);
+            points.add(p);
         }
         return points;
     }
 
-    static public void GenerateSphereToFile(FileWriter writer,Point center, int point_count, Random random) throws IOException {
-        if(random==null)random=new Random();
-        StringBuilder builder=new StringBuilder();
+    static public void GenerateDisjointClustersToFile(BinaryFormatWriter writer, int cluster_count, int point_count, int point_size,Random random)
+            throws IOException {
+        List<Point> centers=generateCenters(cluster_count,point_size,random);
         for(int i=0;i<point_count;i++)
         {
-            double[] elements=new double[center.size()];
-            for(int j=0;j<center.size();j++)
-                elements[j]=random.nextDouble()+center.getElement(j);
-            String s=new Point(elements).toString();
+            Point center=centers.get(random.nextInt(centers.size()));
+            Point p=Point.generateRandom(center,random);
+            writer.writePoint(p);
+        }
+        writer.flush();
+    }
+
+
+    static public void GenerateDisjointClustersToFile(FileWriter writer, int cluster_count, int point_count, int point_size,Random random)
+            throws IOException {
+        List<Point> centers=generateCenters(cluster_count,point_size,random);
+
+        StringBuilder builder=new StringBuilder();
+        for (Point center:centers){
+            String s=center.toString();
+            builder.append(s.substring(1, s.length() - 1)).append("\n");
+        }
+
+
+        for(int i=0;i<point_count;i++)
+        {
+            Point center=centers.get(random.nextInt(centers.size()));
+            String s=Point.generateRandom(center,random).toString();
             builder.append(s.substring(1, s.length() - 1)).append("\n");
             if(builder.length()>64*1024)
             {
@@ -61,42 +77,6 @@ public class RandomPointGenerator {
         }
         if(builder.length()>0)
             writer.write(builder.toString());
-        writer.flush();
-    }
-
-    static public void GenerateSphereToFile(BinaryFormatWriter writer,Point center, int point_count, Random random) throws IOException {
-        if(random==null)random=new Random();
-        for(int i=0;i<point_count;i++)
-        {
-            double[] elements=new double[center.size()];
-            for(int j=0;j<center.size();j++)
-                elements[j]=random.nextDouble()+center.getElement(j);
-            writer.writePoint(elements);
-        }
-        writer.flush();
-    }
-
-    static public void GenerateDisjointClustersToFile(FileWriter writer, Point first_center,int cluster_count, int point_count,Random random)
-            throws IOException {
-        int count=point_count/cluster_count;
-        for(int j=0;j<cluster_count;j++)
-        {
-            for(int i=0;i<first_center.size();i++)
-                first_center.setElement(i,first_center.getElement(i)+10*j);
-            RandomPointGenerator.GenerateSphereToFile(writer, first_center, count, random);
-        }
-        writer.flush();
-    }
-
-    static public void GenerateDisjointClustersToFile(BinaryFormatWriter writer, Point first_center,int cluster_count, int point_count,Random random)
-            throws IOException {
-        int count=point_count/cluster_count;
-        for(int j=0;j<cluster_count;j++)
-        {
-            for(int i=0;i<first_center.size();i++)
-                first_center.setElement(i,first_center.getElement(i)+10*j);
-            RandomPointGenerator.GenerateSphereToFile(writer, first_center, count, random);
-        }
         writer.flush();
     }
 

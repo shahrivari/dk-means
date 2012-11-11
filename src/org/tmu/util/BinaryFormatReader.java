@@ -20,10 +20,25 @@ public class BinaryFormatReader {
 
     public BinaryFormatReader(String file_name) throws IOException{
         stream=new DataInputStream(new BufferedInputStream(new FileInputStream(file_name),64*1024));
+        char ch= (char) stream.readByte();
+        if(ch!='B')
+            throw new IOException("Wrong binary format!");
+        ch=(char) stream.readByte();
+        if(ch!='I')
+            throw new IOException("Wrong binary format!");
+        ch=(char) stream.readByte();
+        if(ch!='N')
+            throw new IOException("Wrong binary format!");
+
         pointLength=stream.readInt();
         if(pointLength<=0)
             throw new IOException("Point length is invalid:"+pointLength);
     }
+
+    public void close() throws IOException {
+        stream.close();
+    }
+
 
     public Point readNextPoint() throws IOException {
         double [] point=new double[pointLength];

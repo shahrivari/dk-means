@@ -24,7 +24,7 @@ public class ClusteringPerformanceTester {
 
         for (int i=0;i<iter;i++){
             KMeansPlusPlusClusterer<Point> kMeansPlusPlusClusterer=new KMeansPlusPlusClusterer<Point>(new Random());
-            Collection<Point> points=RandomPointGenerator.GenerateDisjointClusters(center, cluster_count, count, new Random());
+            Collection<Point> points=RandomPointGenerator.GenerateDisjointClusters(cluster_count,count,dimension,new Random());
             Stopwatch watch=new Stopwatch().start();
             kMeansPlusPlusClusterer.cluster(points,cluster_count,iteration);
             System.out.println(watch);

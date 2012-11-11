@@ -2,7 +2,7 @@ package org.tmu;
 
 import com.google.common.base.Stopwatch;
 import org.tmu.clustering.DKMeansClusterer;
-import org.tmu.clustering.InMemClusteringTester;
+import org.tmu.util.InMemClusteringTester;
 import org.tmu.util.*;
 
 
@@ -30,16 +30,40 @@ public class Main {
 
 //        System.out.println("Sequental Read:"+CSVReader.TimeSequentialFileRead(file_name));
 //
-        InMemClusteringTester.doTest("Z:\\household.csv", 7, 20);
+//        for(int s:new int[]{2,7,13,20}){
+//            System.out.println("##################### Clusters" + s);
+//            RandomPointGenerator.GenerateDisjointClustersToFile(new FileWriter("z:\\NORM-"+Integer.toString(s)),s,1000*1000,5,new Random());
+//        }
+
+        //RandomPointGenerator.GenerateDisjointClustersToFile(new FileWriter("z:\\big.csv"),10,100*1000*1000,5,new Random());
+        //System.exit(0);
+        watch.reset().start();
+        DKMeansClusterer dkMeansClusterer1=new DKMeansClusterer();
+        Collection<Point> res=dkMeansClusterer1.cluster("z:\\big.bin",10);
+        System.out.println(watch);
+        for(Point p:res)
+            System.out.println(p);
+        System.exit(0);
+
+        for(int s:new int[]{2,7,13,20}){
+            System.out.println("##################### NORM-" + s);
+            InMemClusteringTester.doTestFromFile("z:\\NORM-"+Integer.toString(s), s, 20, 9);
+        }
+
+        System.exit(0);
+
+        for(String s:new String[]{"Z:\\kddcup.csv","Z:\\skin.csv","Z:\\household.csv"}){
+            System.out.println("##################### " + s);
+            InMemClusteringTester.doTestFromFile(s, 5, 20, 5);
+        }
         System.exit(0);
 
         watch.reset().start();
         DKMeansClusterer dkMeansClusterer=new DKMeansClusterer();
-        Collection<Point> res=dkMeansClusterer.clusterCSVFile("Z:\\skin.csv", 23, 4, 1024, 20);
+        Collection<Point> res1=dkMeansClusterer.clusterCSVFile("Z:\\skin.csv", 23, 4, 1024, 20);
         System.out.println(watch);
-        for(Point p:res)
+        for(Point p:res1)
             System.out.println(p);
-        DKMeansClusterer.printStat("Z:\\household_power_consumption.csv",res);
         return;
 //        TestCSV test=new TestCSV();
 //        test.ReadLines(file_name,1000*1000*10);

@@ -23,6 +23,8 @@ public class ImprovedStreamClusterer<T extends Clusterable<T>> {
         parallelProducerConsumer =new ParallelProducerConsumer<Collection<T>, T>() {
             @Override
             protected void processItem(Collection<T> input) {
+                if(input.size()<cluster_count)
+                    return;
                 KMeansPlusPlusClusterer<T> kmpp=new KMeansPlusPlusClusterer<T>(new Random());
                 Collection<Cluster<T>> clusters=kmpp.cluster(input,cluster_count,chunk_iteration);
                 for (Cluster<T> cluster:clusters)

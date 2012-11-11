@@ -4,6 +4,7 @@ import org.apache.commons.math3.stat.clustering.Cluster;
 import org.apache.commons.math3.stat.clustering.KMeansPlusPlusClusterer;
 import org.tmu.util.BinaryFormatReader;
 import org.tmu.util.CSVReader;
+import org.tmu.util.DataSetInfo;
 import org.tmu.util.Point;
 
 import java.io.FileNotFoundException;
@@ -20,16 +21,12 @@ import java.util.*;
 public class DKMeansClusterer  {
 
     public static Collection<Point> clusterBinaryFile(String file_name, int cluster_count, int thread_count, int chunk_size, int chunk_iteration_count) throws IOException, InterruptedException {
-        //CSVReader csvReader=new CSVReader(file_name);
-        //csvReader.StartPool(2,1024);
         BinaryFormatReader reader=new BinaryFormatReader(file_name);
         ImprovedStreamClusterer<Point> smeans=new ImprovedStreamClusterer<Point>(cluster_count,chunk_iteration_count);
         smeans.Start();
 
         Collection<Point> points;
         do{
-            //points=csvReader.ReadSomePoint(chunk_size);
-            //points=csvReader.ReadSomePointInParallel(1024*100,4);
             points=reader.readSomePoint(chunk_size);
             if(points==null)
                 break;
@@ -48,13 +45,6 @@ public class DKMeansClusterer  {
         for(Cluster<Point> cluster:final_clusters)
             final_centers.add(cluster.getCenter());
         return final_centers;
-    }
-
-    public static Collection<Point> cluster(String file_name,int cluster_count) throws IOException, InterruptedException {
-        if(file_name.endsWith(".csv"))
-            return clusterCSVFile(file_name, cluster_count, Runtime.getRuntime().availableProcessors(), 1024, 10);
-        else
-            return clusterBinaryFile(file_name, cluster_count, Runtime.getRuntime().availableProcessors(), 1024, 10);
     }
 
     public static Collection<Point> clusterCSVFile(String file_name, int cluster_count, int thread_count, int chunk_size, int chunk_iteration_count) throws IOException, InterruptedException {
@@ -139,6 +129,29 @@ public class DKMeansClusterer  {
         System.out.println("SSE :" + sse);
     }
 
+    public static Collection<Point> cluster(String file_name,int cluster_count) throws IOException, InterruptedException {
+        if(file_name.endsWith(".csv")){
+            int point_count=DataSetInfo.estimatePointCountCSV(file_name);
+            int point_size=DataSetInfo.pointSizeCSV(file_name);
+            int chunkSize=DataSetInfo.estimateChunkSize(point_count,point_size);
+            System.out.println("Clustering file:"+file_name);
+            System.out.println("Setting:  \testimated items:"+point_count+"\tchunk size:"+chunkSize+	"\titem size:"+point_size);
+            return clusterCSVFile(file_name, cluster_count, Runtime.getRuntime().availableProcessors(), chunkSize, (int)Math.log(chunkSize));
+        }
+        else{
+            int point_count=DataSetInfo.estimatePointCountBinary(file_name);
+            int point_size=DataSetInfo.pointSizeBinary(file_name);
+            int chunkSize=DataSetInfo.estimateChunkSize(point_count,point_size);
+            System.out.println("Clustering file:"+file_name);
+            System.out.println("Setting:  \testimated items:"+point_count+"\tchunk size:"+chunkSize+	"\titem size:"+point_size);
+            return clusterBinaryFile(file_name, cluster_count, Runtime.getRuntime().availableProcessors(), chunkSize, (int)Math.log(chunkSize));
+        }
+    }
 
+    public static  List<Cluster<Point>> cluster(List<Point> points, int cluster_count) throws IOException, InterruptedException {
+        int chunkSize= DataSetInfo.estimateChunkSize(points);
+        int innerIter=DataSetInfo.estimateIteration(points.size());
+        return cluster(points,cluster_count,Runtime.getRuntime().availableProcessors(),chunkSize,innerIter);
+    }
 
 }

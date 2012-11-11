@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.commons.math3.stat.clustering.Clusterable;
 /**
@@ -51,6 +52,13 @@ public class Point implements Clusterable<Point>{
     public int size()
     {
         return elements.length;
+    }
+
+    public static Point generateRandom(Point center, Random random){
+        Point result=new Point(center.size());
+        for(int i=0;i<result.size();i++)
+            result.setElement(i,random.nextDouble()+center.getElement(i)-0.5);
+        return result;
     }
 
     public String toString()
