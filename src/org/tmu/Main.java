@@ -19,7 +19,24 @@ public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
         String file_name=args[0];
         Stopwatch watch=new Stopwatch().start();
-        OnDiskClusteringTester.generateBinaryDatasets("c:\\alaki");
+
+
+
+
+        String bin_dir="z:/alaki";
+        //OnDiskClusteringTester.generateBinaryDatasets(bin_dir);
+
+        //OnDiskClusteringTester.convertBinaryToCSV("z:/alaki","x:/alaki");
+
+        for(File f:new File(bin_dir).listFiles());
+            //OnDiskClusteringTester.doTest(f.getPath(),Integer.parseInt(f.getName().substring(9,f.getName().lastIndexOf("_"))),Runtime.getRuntime().availableProcessors());
+
+
+        for(int i=Runtime.getRuntime().availableProcessors();i>0;i--){
+            File f=new File(bin_dir+"/BIN_NORM_20_1000M.bin");
+            OnDiskClusteringTester.doTest(f.getPath(),Integer.parseInt(f.getName().substring(9,f.getName().lastIndexOf("_"))),i);
+        }
+
         System.exit(0);
 
 

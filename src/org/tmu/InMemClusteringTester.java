@@ -132,7 +132,7 @@ public class InMemClusteringTester {
         for(Integer i:new Integer[]{2,7,13,20}){
             watch.reset().start();
             System.out.println("Generating Dataset with " + i+ " clusters...");
-            RandomPointGenerator.GenerateDisjointClustersToFile(new FileWriter(dataset_dir+"/NORM-"+i.toString()),i,1000*1000,5,new Random());
+            RandomPointGenerator.GenerateDisjointClustersToFile(new FileWriter(dataset_dir+"/NORM-"+i.toString()+".csv"),i,1000*1000,5,new Random());
             System.out.println("Took: "+watch.stop());
         }
         System.out.println("Synthesized datasets created!");

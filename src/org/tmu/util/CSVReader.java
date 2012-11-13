@@ -197,6 +197,29 @@ public class CSVReader {
         System.out.println("\t convert [CSV_FILE] [DESTINATION]");
     }
 
+
+    public static void convertBinaryToCSV(final String binary_path, final String csv_path) throws IOException, InterruptedException {
+        BinaryFormatReader binaryFormatReader=new BinaryFormatReader(binary_path);
+        FileWriter writer=new FileWriter(csv_path);
+        StringBuilder builder=new StringBuilder();
+
+        while (true){
+            Point p=binaryFormatReader.readNextPoint();
+            if(p==null)
+                break;
+            String s=p.toString();
+            builder.append(s.substring(1, s.length() - 1)).append("\n");
+            if(builder.length()>64*1024)
+            {
+                writer.write(builder.toString());
+                builder.setLength(0);
+            }
+        }
+        if(builder.length()>0)
+            writer.write(builder.toString());
+        writer.flush();
+    }
+
     public static void convertCSVtoBinary(final String csv_path, final String binary_path) throws IOException, InterruptedException {
         convertCSVtoBinary(csv_path, binary_path, 32 * 1024 * 1024);
     }

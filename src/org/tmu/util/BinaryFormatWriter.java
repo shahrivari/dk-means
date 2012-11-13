@@ -54,4 +54,6 @@ public class BinaryFormatWriter {
             writePoint(p);
     }
 
+
+
 }

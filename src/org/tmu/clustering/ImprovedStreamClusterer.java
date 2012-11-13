@@ -18,9 +18,9 @@ import java.util.Random;
 public class ImprovedStreamClusterer<T extends Clusterable<T>> {
     ParallelProducerConsumer<Collection<T>, T> parallelProducerConsumer;
 
-    public ImprovedStreamClusterer(final int cluster_count, final int chunk_iteration)
+    public ImprovedStreamClusterer(final int cluster_count, final int chunk_iteration,final int thread_count)
     {
-        parallelProducerConsumer =new ParallelProducerConsumer<Collection<T>, T>() {
+        parallelProducerConsumer =new ParallelProducerConsumer<Collection<T>, T>(thread_count,1024) {
             @Override
             protected void processItem(Collection<T> input) {
                 if(input.size()<cluster_count)
@@ -32,6 +32,12 @@ public class ImprovedStreamClusterer<T extends Clusterable<T>> {
             }
         };
 
+    }
+
+
+    public ImprovedStreamClusterer(final int cluster_count, final int chunk_iteration)
+    {
+        this(cluster_count,chunk_iteration,Runtime.getRuntime().availableProcessors());
     }
 
     public ImprovedStreamClusterer(final int cluster_count){

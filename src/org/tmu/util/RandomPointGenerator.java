@@ -50,6 +50,7 @@ public class RandomPointGenerator {
             writer.writePoint(p);
         }
         writer.flush();
+        writer.close();
     }
 
 

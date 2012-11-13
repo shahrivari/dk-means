@@ -80,7 +80,7 @@ public abstract class ParallelProducerConsumer<InputType, OutputType> {
     public void AddInput(InputType input) throws InterruptedException {
         if(inputQ.size()>inputQueueLimit){
             Thread.sleep(1);
-            System.out.println("Waiting for queueeeeeeeeeeeeeeeeeeeeeeeeee!!!!");
+            //System.out.println("Waiting for queueeeeeeeeeeeeeeeeeeeeeeeeee!!!!");
         }
         inputQ.add(input);
     }
