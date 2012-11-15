@@ -23,7 +23,8 @@ public class Main {
 
 
 
-        String bin_dir="z:/alaki";
+        //String bin_dir="z:/alaki";
+        String bin_dir=file_name;
         //OnDiskClusteringTester.generateBinaryDatasets(bin_dir);
 
         //OnDiskClusteringTester.convertBinaryToCSV("z:/alaki","x:/alaki");
@@ -32,7 +33,8 @@ public class Main {
             //OnDiskClusteringTester.doTest(f.getPath(),Integer.parseInt(f.getName().substring(9,f.getName().lastIndexOf("_"))),Runtime.getRuntime().availableProcessors());
 
 
-        for(int i=Runtime.getRuntime().availableProcessors();i>0;i--){
+        for(int i=12;i>0;i--){
+            Runtime.getRuntime().gc();
             File f=new File(bin_dir+"/BIN_NORM_20_1000M.bin");
             OnDiskClusteringTester.doTest(f.getPath(),Integer.parseInt(f.getName().substring(9,f.getName().lastIndexOf("_"))),i);
         }

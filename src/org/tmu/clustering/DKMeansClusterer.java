@@ -27,11 +27,17 @@ public class DKMeansClusterer  {
         smeans.Start();
 
         Collection<Point> points;
+        int point_read=0;
         do{
             points=reader.readSomePoint(chunk_size);
             if(points==null)
                 break;
             smeans.AddChunk(points);
+            point_read+=points.size();
+            if((point_read/1000)%1000==0){
+                System.out.println("Read: " + point_read);
+                System.out.flush();
+            }
         }while (points.size()>0);
 
         smeans.InputIsDone();

@@ -17,6 +17,8 @@ public class BinaryFormatReader {
     DataInputStream stream;
     int pointLength=0;
 
+    double [] point;
+
 
     public BinaryFormatReader(String file_name) throws IOException{
         stream=new DataInputStream(new BufferedInputStream(new FileInputStream(file_name),64*1024));
@@ -33,6 +35,7 @@ public class BinaryFormatReader {
         pointLength=stream.readInt();
         if(pointLength<=0)
             throw new IOException("Point length is invalid:"+pointLength);
+        point=new double[pointLength];
     }
 
     public void close() throws IOException {
@@ -40,8 +43,18 @@ public class BinaryFormatReader {
     }
 
 
+//    public Point readNextPoint() throws IOException {
+//        double [] point=new double[pointLength];
+//        try{
+//            for(int i=0;i<pointLength;i++)
+//                point[i]=stream.readDouble();
+//        }catch (EOFException exp){
+//            return null;
+//        }
+//        return new Point(point);
+//    }
+
     public Point readNextPoint() throws IOException {
-        double [] point=new double[pointLength];
         try{
             for(int i=0;i<pointLength;i++)
                 point[i]=stream.readDouble();
@@ -50,6 +63,7 @@ public class BinaryFormatReader {
         }
         return new Point(point);
     }
+
 
     public Collection<Point> readSomePoint(int count) throws IOException {
         Collection<Point> points=new ArrayList<Point>(count);
