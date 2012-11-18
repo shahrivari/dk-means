@@ -21,6 +21,33 @@ import java.util.*;
  */
 public class DKMeansClusterer  {
 
+    public static Collection<Point> clusterBinaryFileSingleThread(String file_name, int cluster_count, int chunk_size) throws IOException, InterruptedException {
+        BinaryFormatReader reader=new BinaryFormatReader(file_name);
+
+        KMeansPlusPlusClusterer<Point> kmpp=new KMeansPlusPlusClusterer<Point>(new Random());
+        ArrayList<Point> centers=new ArrayList<Point>();
+        Collection<Point> points;
+        do{
+            points=reader.readSomePoint(chunk_size);
+            if(points==null)
+                break;
+            List<Cluster<Point>> res=kmpp.cluster(points,cluster_count,(int)Math.log(points.size()));
+            for(Cluster<Point> p:res)
+                centers.add(p.getCenter());
+        }while (points.size()>0);
+
+        Stopwatch watch=new Stopwatch().start();
+        KMeansPlusPlusClusterer<Point> final_kmpp=new KMeansPlusPlusClusterer<Point>(new Random());
+        ArrayList<Point> final_centers=new ArrayList<Point>();
+        System.out.print("Doing k-means++ on intermediate centers....  \tsize:" + centers.size() + "\titerations:" + ((int)Math.log(centers.size())));
+        List<Cluster<Point>> final_clusters=null;
+        final_clusters=final_kmpp.cluster(centers, cluster_count, (int) Math.log(centers.size()));
+        for(Cluster<Point> cluster:final_clusters)
+            final_centers.add(cluster.getCenter());
+        System.out.println("\tTook: "+watch.stop());
+        return final_centers;
+    }
+
     public static Collection<Point> clusterBinaryFile(String file_name, int cluster_count, int thread_count, int chunk_size, int chunk_iteration_count) throws IOException, InterruptedException {
         BinaryFormatReader reader=new BinaryFormatReader(file_name);
         ImprovedStreamClusterer<Point> smeans=new ImprovedStreamClusterer<Point>(cluster_count,chunk_iteration_count,thread_count);
@@ -34,10 +61,10 @@ public class DKMeansClusterer  {
                 break;
             smeans.AddChunk(points);
             point_read+=points.size();
-            if((point_read/1000)%1000==0){
-                System.out.println("Read: " + point_read);
-                System.out.flush();
-            }
+//            if((point_read/1000)%1000==0){
+//                System.out.println("Read: " + point_read);
+//                System.out.flush();
+//            }
         }while (points.size()>0);
 
         smeans.InputIsDone();
@@ -142,7 +169,10 @@ public class DKMeansClusterer  {
             int chunkSize=DataSetInfo.estimateChunkSize(point_count,point_size);
             System.out.println("Clustering file:"+file_name);
             System.out.println("Setting:  \testimated items:"+point_count+"\tchunk size:"+chunkSize+	"\titem size:"+point_size+"\tcluster count: "+cluster_count+"\tthread count: "+thread_count);
-            return clusterBinaryFile(file_name, cluster_count, thread_count, chunkSize, (int)Math.log(chunkSize));
+            if(thread_count==1)
+                return clusterBinaryFileSingleThread(file_name, cluster_count, chunkSize);
+            else
+                return clusterBinaryFile(file_name, cluster_count, thread_count, chunkSize, (int)Math.log(chunkSize));
         }
     }
 
