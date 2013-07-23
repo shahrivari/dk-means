@@ -7,9 +7,9 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="snappy-java-1.0.4.1" level="project" />
     <orderEntry type="library" name="commons-math3-3.0" level="project" />
-    <orderEntry type="library" name="guava-13.0.1" level="project" />
+    <orderEntry type="library" name="guava-14.0.1" level="project" />
+    <orderEntry type="library" name="hppc-0.5.2" level="project" />
   </component>
 </module>
 

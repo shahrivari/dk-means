@@ -83,7 +83,9 @@ public class CSVReader {
     public Point ReadNextPoint() throws IOException {
         String line = readNextNonEmptyLine();
         if (line == null) return null;
-        String[] tokens = line.split(",");
+
+        String[] tokens = line.split("\\s*(;|,|\\s)\\s*");
+        //String[] tokens = line.split(" ");
         double[] point = new double[tokens.length];
 
         for (int i = 0; i < point.length; i++)

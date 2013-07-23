@@ -20,6 +20,12 @@ public class Main {
         String file_name=args[0];
         Stopwatch watch=new Stopwatch().start();
 
+        CSVReader.TimeSequentialFileRead("Z:\\cut.txt");
+
+        System.out.println(watch);
+        System.exit(0);
+
+
 
 
 
