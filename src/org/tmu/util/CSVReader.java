@@ -1,6 +1,7 @@
 package org.tmu.util;
 
 import com.google.common.base.Stopwatch;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -84,8 +85,10 @@ public class CSVReader {
         String line = readNextNonEmptyLine();
         if (line == null) return null;
 
-        String[] tokens = line.split("\\s*(;|,|\\s)\\s*");
+        //String[] tokens = line.split("\\s*(;|,|\\s)\\s*");
         //String[] tokens = line.split(" ");
+        String[] tokens= StringUtils.split(line," ,;\t");
+
         double[] point = new double[tokens.length];
 
         for (int i = 0; i < point.length; i++)

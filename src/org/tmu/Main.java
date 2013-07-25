@@ -20,7 +20,9 @@ public class Main {
         String file_name=args[0];
         Stopwatch watch=new Stopwatch().start();
 
-        CSVReader.TimeSequentialFileRead("Z:\\cut.txt");
+        //CSVReader.TimeSequentialFileRead("Z:\\cut.txt");
+        //CSVReader.TimeParallelFileRead("Z:\\cut.txt",4);
+        Collection<Point> centers= DKMeansClusterer.clusterCSVFile("X:\\Projects\\dk-means\\samples\\a1-20-2D.txt",20,1,10000,10);
 
         System.out.println(watch);
         System.exit(0);

@@ -9,7 +9,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="commons-math3-3.0" level="project" />
     <orderEntry type="library" name="guava-14.0.1" level="project" />
-    <orderEntry type="library" name="hppc-0.5.2" level="project" />
+    <orderEntry type="library" name="commons-lang3-3.1" level="project" />
   </component>
 </module>
 
