@@ -61,6 +61,7 @@ public class Point implements Clusterable<Point>{
         return result;
     }
 
+    @Override
     public String toString()
     {
         StringBuilder builder=new StringBuilder();

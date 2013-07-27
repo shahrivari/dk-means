@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Created with IntelliJ IDEA.
@@ -70,11 +71,13 @@ public class CSVReader {
         producerConsumer.Stop();
     }
 
+    private AtomicLong lineNumber=new AtomicLong(0);
 
     private String readNextNonEmptyLine() throws IOException {
         String line = "";
         do {
             line = reader.readLine();
+            lineNumber.getAndIncrement();
             if (line == null) return null;
             line = line.trim();
         } while (line.isEmpty());
@@ -82,23 +85,26 @@ public class CSVReader {
     }
 
     public Point ReadNextPoint() throws IOException {
-        String line = readNextNonEmptyLine();
-        if (line == null) return null;
+        while (true){
+            String line = readNextNonEmptyLine();
+            if (line == null) return null;
 
-        //String[] tokens = line.split("\\s*(;|,|\\s)\\s*");
-        //String[] tokens = line.split(" ");
-        String[] tokens= StringUtils.split(line," ,;\t");
+            //String[] tokens = line.split("\\s*(;|,|\\s)\\s*");
+            //String[] tokens = line.split(" ");
+            String[] tokens= StringUtils.split(line," ,;\t");
 
-        double[] point = new double[tokens.length];
+            double[] point = new double[tokens.length];
 
-        for (int i = 0; i < point.length; i++)
-            try {
-                point[i] = Double.parseDouble(tokens[i]);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-                System.out.println("OOOOOOPSPPSSS:  " + point[i]);
-            }
-        return new Point(point);
+            for (int i = 0; i < point.length; i++)
+                try {
+                    point[i] = Double.parseDouble(tokens[i]);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                    System.out.println("Error reading line: " + lineNumber);
+                    continue;
+                }
+            return new Point(point);
+        }
     }
 
 
