@@ -100,8 +100,8 @@ public abstract class ParallelStreamConsumer <InputType, OutputType> {
         liveThreadsCount.await(timeout, timeUnit);
     }
 
-    public synchronized Collection<OutputType> GetAndClearResults() throws InterruptedException {
-        Collection<OutputType> result=new ArrayList<OutputType>(resultsQ);
+    public synchronized List<OutputType> GetAndClearResults() throws InterruptedException {
+        List<OutputType> result=new ArrayList<OutputType>(resultsQ);
         resultsQ.clear();
         return result;
     }

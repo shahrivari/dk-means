@@ -79,4 +79,8 @@ public class DataSetInfo {
         return (int)Math.log(count);
     }
 
+    public static int estimateIteration(Collection<Point> points){
+        return estimateIteration(points.size());
+    }
+
 }
