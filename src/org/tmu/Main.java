@@ -22,56 +22,62 @@ public class Main {
         String file_name=args[0];
         Stopwatch watch=new Stopwatch().start();
 
-        //CSVReader.TimeSequentialFileRead("Z:\\cut.txt");
+//        CSVReader.TimeParallelFileRead("x:\\set.txt",8);
+//        System.out.println("Took: "+watch);
+//        System.exit(0);
         //CSVReader.TimeParallelFileRead("Z:\\cut.txt",4);
         //List<Point> centers= DKMeansClusterer.clusterCSVFile("X:\\Projects\\dk-means\\samples\\a1-20-2D.txt",20,1,10000,10);
         //List<Point> points=CSVReader.readWholeFile("X:\\Projects\\dk-means\\samples\\a1-20-2D.txt");
         //List<Point> points=CSVReader.readWholeFile("X:\\dk-means-sets\\household_power_consumption.csv");
-        int k=15;
-        List<Point> points=CSVReader.readWholeFile("X:\\dk-means-sets\\cleaned3.txt");
-        //List<Point> points=CSVReader.readWholeFile("X:\\dk-means-sets\\Skin_NonSkin.txt");
-        System.out.println("Total Points:"+points.size());
-        System.out.println("Took: "+watch);
-        watch.reset().start();
+
+//        RandomPointGenerator.GenerateDisjointClustersToFile(new FileWriter("x:\\set.txt"),50,1000*1000*5,50,new Random());
+//        System.exit(0);
+        int k=20;
+        //List<Point> points=CSVReader.readWholeFile("X:\\dk-means-sets\\cleaned3.txt");
+//        List<Point> points=CSVReader.readWholeFile("X:\\set.txt");
+//        System.out.println("Total Points:"+points.size());
+//        System.out.println("Took: "+watch);
+//        watch.reset().start();
 
         List<Point> centers;
 
         System.out.println("P-DKMeans:");
-        centers= MasterPointClusterer.InMemParallelDKMeans(points,k,100);
+        //centers= MasterPointClusterer.InMemParallelDKMeans(points,k,100);
+        centers=MasterPointClusterer.DKMeansCSVFile("X:\\set.txt",50,1000,5,8);
         for(Point c:centers)
             System.out.println(c);
-        System.out.printf("SSE: %f\n", CenteroidEvaluator.computeSSE(points,centers));
+        //System.out.printf("SSE: %f\n", CenteroidEvaluator.computeSSE(points,centers));
         System.out.printf("ICD: %f\n", CenteroidEvaluator.computeIntraCenterDistance(centers));
         System.out.println("Took: "+watch);
         watch.reset().start();
 
 
-        System.out.println("DKMeans:");
-        centers= MasterPointClusterer.InMemDKMeans(points,k,100);
-        for(Point c:centers)
-            System.out.println(c);
-        System.out.printf("SSE: %f\n", CenteroidEvaluator.computeSSE(points,centers));
-        System.out.printf("ICD: %f\n", CenteroidEvaluator.computeIntraCenterDistance(centers));
-        System.out.println("Took: "+watch);
-        watch.reset().start();
-
-        System.out.println("KMeans:");
-        centers= MasterPointClusterer.KMeans(points, k, 20);
-        for(Point c:centers)
-            System.out.println(c);
-        System.out.printf("SSE: %f\n", CenteroidEvaluator.computeSSE(points,centers));
-        System.out.printf("ICD: %f\n", CenteroidEvaluator.computeIntraCenterDistance(centers));
-        System.out.println("Took: "+watch);
-        watch.reset().start();
-
-        System.out.println("KMeans++:");
-        centers= MasterPointClusterer.KMeansPP(points, k, 20);
-        for(Point c:centers)
-            System.out.println(c);
-        System.out.printf("SSE: %f\n", CenteroidEvaluator.computeSSE(points,centers));
-        System.out.printf("ICD: %f\n", CenteroidEvaluator.computeIntraCenterDistance(centers));
-        System.out.println("Took: "+watch);
-        watch.reset().start();
+//        System.out.println("DKMeans:");
+//        centers= MasterPointClusterer.InMemDKMeans(points,k,100);
+//        for(Point c:centers)
+//            System.out.println(c);
+//        System.out.printf("SSE: %f\n", CenteroidEvaluator.computeSSE(points,centers));
+//        System.out.printf("ICD: %f\n", CenteroidEvaluator.computeIntraCenterDistance(centers));
+//        System.out.println("Took: "+watch);
+//        watch.reset().start();
+//
+//        System.out.println("KMeans:");
+//        centers= MasterPointClusterer.KMeans(points, k, 20);
+//        for(Point c:centers)
+//            System.out.println(c);
+//        System.out.printf("SSE: %f\n", CenteroidEvaluator.computeSSE(points,centers));
+//        System.out.printf("ICD: %f\n", CenteroidEvaluator.computeIntraCenterDistance(centers));
+//        System.out.println("Took: "+watch);
+//        watch.reset().start();
+//
+//        System.out.println("KMeans++:");
+//        centers= MasterPointClusterer.KMeansPP(points, k, 20);
+//        for(Point c:centers)
+//            System.out.println(c);
+//        System.out.printf("SSE: %f\n", CenteroidEvaluator.computeSSE(points,centers));
+//        System.out.printf("ICD: %f\n", CenteroidEvaluator.computeIntraCenterDistance(centers));
+//        System.out.println("Took: "+watch);
+//        watch.reset().start();
 
 
 

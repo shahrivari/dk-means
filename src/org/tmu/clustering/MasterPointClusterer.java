@@ -67,6 +67,7 @@ public class MasterPointClusterer {
 
     public static List<Point> InMemParallelDKMeans(final List<Point> points, final int k,final int chunk_size) throws InterruptedException {
         Stopwatch watch=new Stopwatch().start();
+
         ImprovedStreamClusterer<Point> smeans=new ImprovedStreamClusterer<Point>(k,DataSetInfo.estimateIteration(chunk_size),Runtime.getRuntime().availableProcessors());
         smeans.Start();
 
@@ -92,12 +93,17 @@ public class MasterPointClusterer {
         CSVReader csvReader=new CSVReader(file_name);
         ImprovedStreamClusterer<Point> smeans=new ImprovedStreamClusterer<Point>(k,chunk_iteration_count,thread_count);
         smeans.Start();
-
-        Collection<Point> points;
+        //csvReader.StartPool();
+        List<Point> points;
         do{
+            //points=csvReader.ReadSomePointInParallel(100*1000,1024);
             points=csvReader.ReadSomePoint(chunk_size);
+
             if(points==null)
                 break;
+//            List<List<Point>> lists=Lists.partition(points,chunk_size);
+//            for(List<Point> list:lists)
+//                smeans.AddChunk(list);
             smeans.AddChunk(points);
         }while (points.size()>0);
 

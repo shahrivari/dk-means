@@ -90,7 +90,7 @@ public class CSVReader {
             if (line == null) return null;
 
             //String[] tokens = line.split("\\s*(;|,|\\s)\\s*");
-            //String[] tokens = line.split(" ");
+            //String[] tokens = line.split("\\s|,|;");
             String[] tokens= StringUtils.split(line," ,;\t");
 
             double[] point = new double[tokens.length];
@@ -108,7 +108,7 @@ public class CSVReader {
     }
 
 
-    public Collection<Point> ReadSomePoint(int count) throws IOException {
+    public List<Point> ReadSomePoint(int count) throws IOException {
         Stopwatch watch = new Stopwatch().start();
         List<Point> points = new ArrayList<Point>(count);
         Point point;
@@ -154,7 +154,7 @@ public class CSVReader {
     }
 
 
-    public Collection<Point> ReadSomePointInParallel(int count, int chunk_size) throws IOException, InterruptedException {
+    public List<Point> ReadSomePointInParallel(int count, int chunk_size) throws IOException, InterruptedException {
         if (producerConsumer == null)
             throw new ExceptionInInitializerError("Threadpool is not started!");
         if (count < 1024)
