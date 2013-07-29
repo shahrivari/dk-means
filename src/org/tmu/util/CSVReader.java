@@ -24,6 +24,12 @@ public class CSVReader {
     BufferedReader reader;
     FileReader fileReader;
 
+    public long getReadCount() {
+        return readCount.get();
+    }
+
+    final private AtomicLong readCount=new AtomicLong(0);
+
     ParallelStreamConsumer<List<String>, Point> producerConsumer = null;
 
     public void close() throws IOException {
@@ -103,6 +109,8 @@ public class CSVReader {
                     System.out.println("Error reading line: " + lineNumber);
                     continue;
                 }
+
+            readCount.incrementAndGet();
             return new Point(point);
         }
     }

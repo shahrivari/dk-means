@@ -19,7 +19,7 @@ import java.util.*;
  */
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
-        String file_name=args[0];
+
         Stopwatch watch=new Stopwatch().start();
 
 //        CSVReader.TimeParallelFileRead("x:\\set.txt",8);
@@ -32,21 +32,31 @@ public class Main {
 
 //        RandomPointGenerator.GenerateDisjointClustersToFile(new FileWriter("x:\\set.txt"),50,1000*1000*5,50,new Random());
 //        System.exit(0);
+        String file_name= "X:\\dk-means-sets\\300M.txt";
         int k=20;
-        //List<Point> points=CSVReader.readWholeFile("X:\\dk-means-sets\\cleaned3.txt");
-//        List<Point> points=CSVReader.readWholeFile("X:\\set.txt");
-//        System.out.println("Total Points:"+points.size());
-//        System.out.println("Took: "+watch);
-//        watch.reset().start();
+        List<Point> points=CSVReader.readWholeFile(file_name);
+        System.out.println("Total Points:"+points.size());
+        System.out.println("Took: "+watch);
+        watch.reset().start();
 
         List<Point> centers;
 
-        System.out.println("P-DKMeans:");
-        //centers= MasterPointClusterer.InMemParallelDKMeans(points,k,100);
-        centers=MasterPointClusterer.DKMeansCSVFile("X:\\set.txt",50,1000,5,8);
+        System.out.println("InMem DKMeans:");
+        centers= MasterPointClusterer.InMemParallelDKMeans(points,k,1000);
         for(Point c:centers)
             System.out.println(c);
-        //System.out.printf("SSE: %f\n", CenteroidEvaluator.computeSSE(points,centers));
+        System.out.printf("SSE: %f\n", CenteroidEvaluator.computeSSE(points,centers));
+        System.out.printf("ICD: %f\n", CenteroidEvaluator.computeIntraCenterDistance(centers));
+        System.out.println("Took: "+watch);
+        watch.reset().start();
+
+
+        System.out.println("P-DKMeans:");
+        //centers= MasterPointClusterer.InMemParallelDKMeans(points,k,100);
+        centers=MasterPointClusterer.DKMeansCSVFile(file_name,k,1000,5,8);
+        for(Point c:centers)
+            System.out.println(c);
+        System.out.printf("SSE: %f\n", CenteroidEvaluator.computeSSEFromCSV(file_name,centers));
         System.out.printf("ICD: %f\n", CenteroidEvaluator.computeIntraCenterDistance(centers));
         System.out.println("Took: "+watch);
         watch.reset().start();

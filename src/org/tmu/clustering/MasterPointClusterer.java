@@ -88,22 +88,26 @@ public class MasterPointClusterer {
         return KMeansPP(intermediate_centers,k,DataSetInfo.estimateChunkSize(intermediate_centers));
    }
 
+    public static int verbose_step=1000*1000;
+
     public static List<Point> DKMeansCSVFile(final String file_name, final int k, int chunk_size, int chunk_iteration_count, int thread_count) throws IOException, InterruptedException {
         Stopwatch watch=new Stopwatch().start();
         CSVReader csvReader=new CSVReader(file_name);
         ImprovedStreamClusterer<Point> smeans=new ImprovedStreamClusterer<Point>(k,chunk_iteration_count,thread_count);
         smeans.Start();
-        //csvReader.StartPool();
-        List<Point> points;
-        do{
-            //points=csvReader.ReadSomePointInParallel(100*1000,1024);
-            points=csvReader.ReadSomePoint(chunk_size);
 
+        List<Point> points;
+        int last_delta_read=0;
+        do{
+            points=csvReader.ReadSomePoint(chunk_size);
             if(points==null)
                 break;
-//            List<List<Point>> lists=Lists.partition(points,chunk_size);
-//            for(List<Point> list:lists)
-//                smeans.AddChunk(list);
+            last_delta_read+=points.size();
+            if(last_delta_read>=verbose_step){
+                last_delta_read=0;
+                System.out.printf("Total read points: %,d\n",csvReader.getReadCount());
+            }
+
             smeans.AddChunk(points);
         }while (points.size()>0);
 
@@ -116,7 +120,10 @@ public class MasterPointClusterer {
             System.out.println("Doing k-means++ on intermediate centers....  \tsize:" + intermediate_centers.size() + "\titerations:" + DataSetInfo.estimateIteration(intermediate_centers));
         }
 
-        return KMeansPP(intermediate_centers,k,DataSetInfo.estimateIteration(intermediate_centers));
+        if(intermediate_centers.size()<1000*1000)
+            return KMeansPP(intermediate_centers,k,DataSetInfo.estimateIteration(intermediate_centers));
+        else
+            return InMemParallelDKMeans(new ArrayList<Point>(intermediate_centers),k,DataSetInfo.estimateChunkSize(intermediate_centers));
     }
 
     public static Collection<Point> clusterBinaryFile(String file_name, int k, int chunk_size, int chunk_iteration_count, int thread_count) throws IOException, InterruptedException {
