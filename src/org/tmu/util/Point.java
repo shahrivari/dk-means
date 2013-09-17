@@ -16,6 +16,7 @@ import org.apache.commons.math3.stat.clustering.Clusterable;
  */
 public class Point implements Clusterable<Point>{
     public double[] elements=null;
+    double weight=1.0;
 
     public Point()
     {
@@ -38,9 +39,15 @@ public class Point implements Clusterable<Point>{
     public Point(Point point)
     {
         this(point.elements);
+        weight=point.weight;
     }
 
-    public Double getElement(int index) {
+    public double getWeight() {
+        return weight;
+    }
+
+
+    public double getElement(int index) {
         return elements[index];
     }
 
