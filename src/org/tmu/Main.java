@@ -19,7 +19,7 @@ import java.util.*;
  */
 public class Main {
     public static void main(String[] args) throws IOException, InterruptedException {
-
+        //alaki
         Stopwatch watch=new Stopwatch().start();
 
 //        CSVReader.TimeParallelFileRead("x:\\set.txt",8);
