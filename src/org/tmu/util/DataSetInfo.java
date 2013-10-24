@@ -76,7 +76,7 @@ public class DataSetInfo {
     }
 
     public static int estimateIteration(int count){
-        return (int)(Math.log(count));///Math.log(2));
+        return (int)(Math.log(count)*2);///Math.log(2));
     }
 
     public static int estimateIteration(Collection<Point> points){

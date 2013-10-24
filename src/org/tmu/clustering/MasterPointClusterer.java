@@ -126,17 +126,25 @@ public class MasterPointClusterer {
             return InMemParallelDKMeans(new ArrayList<Point>(intermediate_centers),k,DataSetInfo.estimateChunkSize(intermediate_centers));
     }
 
-    public static Collection<Point> clusterBinaryFile(String file_name, int k, int chunk_size, int chunk_iteration_count, int thread_count) throws IOException, InterruptedException {
+    public static Collection<Point> DKMeansBinaryFile(String file_name, int k, int chunk_size, int chunk_iteration_count, int thread_count) throws IOException, InterruptedException {
         Stopwatch watch=new Stopwatch().start();
         BinaryFormatReader reader=new BinaryFormatReader(file_name);
         ImprovedStreamClusterer<Point> smeans=new ImprovedStreamClusterer<Point>(k,chunk_iteration_count,thread_count);
         smeans.Start();
 
         Collection<Point> points;
+        int last_delta_read=0;
+        long read_count=0;
         do{
             points=reader.readSomePoint(chunk_size);
             if(points==null)
                 break;
+            last_delta_read+=points.size();
+            read_count+=points.size();
+            if(last_delta_read>=verbose_step){
+                last_delta_read=0;
+                System.out.printf("Total read points: %,d\n",read_count);
+            }
             smeans.AddChunk(points);
         }while (points.size()>0);
 

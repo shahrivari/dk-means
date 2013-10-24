@@ -81,7 +81,7 @@ public class Point implements Clusterable<Point>{
             int dot_place=s.indexOf('.');
             if(dot_place+5<s.length())
                 s=s.substring(0,dot_place+5);
-            builder.append(s).append(",");
+            builder.append(s).append(" ");
         }
         builder.deleteCharAt(builder.length()-1);
         builder.append(")");
