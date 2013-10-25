@@ -106,18 +106,26 @@ public class Main {
 
                 }
                 else {
-                    MasterPointClusterer.DKMeansCSVFile(input_path,k,chunk_size,10,t);
+                    Collection<Point> centers =MasterPointClusterer.DKMeansCSVFile(input_path,k,chunk_size,10,t);
+                    System.out.println("Took "+watch);
+                    watch.reset().start();
+                    System.out.println("Computing SE.....");
+                    double se=CenteroidEvaluator.computeSSEFromCSV(input_path,new ArrayList<Point>(centers));
+                    double icd=CenteroidEvaluator.computeIntraCenterDistance(new ArrayList<Point>(centers));
+                    System.out.println("Took "+watch);
+                    System.out.printf("SE:%g \t ICD:%f \n",se,icd);
+
                 }
             }
 
             if(line.hasOption("generate")){
-            int n=10000;
+            long n=10000;
             int d=5;
 
             if (!line.hasOption("n"))
                 exit("Number of items  must be given.");
             else
-                n = Integer.parseInt(line.getOptionValue("n"));
+                n = Long.parseLong(line.getOptionValue("n"));
 
             if (!line.hasOption("d"))
                 exit("Number of dimensions must be given.");
@@ -143,8 +151,6 @@ public class Main {
                 }
 
                 System.out.printf("Written %,d points in %s.\n",n,watch.toString());
-
-
 
             System.exit(0);
         }

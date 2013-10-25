@@ -40,21 +40,23 @@ public class RandomPointGenerator {
         return points;
     }
 
-    static public void GenerateDisjointClustersToFile(BinaryFormatWriter writer, int cluster_count, int point_count, int point_size,Random random)
+    static public void GenerateDisjointClustersToFile(BinaryFormatWriter writer, int cluster_count, long point_count, int point_size,Random random)
             throws IOException {
         List<Point> centers=generateCenters(cluster_count,point_size,random);
-        for(int i=0;i<point_count;i++)
+        for(long i=0;i<point_count;i++)
         {
             Point center=centers.get(random.nextInt(centers.size()));
             Point p=Point.generateRandom(center,random);
             writer.writePoint(p);
+            if(i%1000000==0)
+                System.out.printf("Generated %,d points.\n",i);
         }
         writer.flush();
         writer.close();
     }
 
 
-    static public void GenerateDisjointClustersToFile(FileWriter writer, int cluster_count, int point_count, int point_size,Random random)
+    static public void GenerateDisjointClustersToFile(FileWriter writer, int cluster_count, long point_count, int point_size,Random random)
             throws IOException {
         List<Point> centers=generateCenters(cluster_count,point_size,random);
 
@@ -65,7 +67,7 @@ public class RandomPointGenerator {
         }
 
 
-        for(int i=0;i<point_count;i++)
+        for(long i=0;i<point_count;i++)
         {
             Point center=centers.get(random.nextInt(centers.size()));
             String s=Point.generateRandom(center,random).toString();
@@ -75,6 +77,8 @@ public class RandomPointGenerator {
                 writer.write(builder.toString());
                 builder.setLength(0);
             }
+            if(i%1000000==0)
+                System.out.printf("Generated %,d points.\n",i);
         }
         if(builder.length()>0)
             writer.write(builder.toString());
