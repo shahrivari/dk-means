@@ -47,7 +47,7 @@ public class Main {
         options.addOption("kmeans", false, "use standard kmeans.");
         options.addOption("dkmeans", false, "use dkmeans.");
         options.addOption("generate", false, "generate random data.");
-        options.addOption("evaluate", true, "Evaluate the clustering using the centers in the file.");
+//        options.addOption("evaluate", true, "Evaluate the clustering using the centers in the file.");
         options.addOption("i", "input", true, "the input file name.");
         options.addOption("o", "output", true, "the output path.");
         options.addOption("k", "k", true, "the number of clusters.");
@@ -84,6 +84,64 @@ public class Main {
             if (line.hasOption("i"))
                 input_path = line.getOptionValue("i");
 
+            if(line.hasOption("kmeanspp")){
+                if (!line.hasOption("i"))
+                    exit("An input file must be given!");
+                if (!line.hasOption("k"))
+                    exit("Number of clusters must be given.");
+                if (!line.hasOption("m"))
+                    exit("Max iterations must be given.");
+
+                System.out.println("Reading file....");
+                Collection<Point> points=CSVReader.readWholeFile(input_path);
+                System.out.println("Doing k-means++....");
+
+                Collection<Point> centers =MasterPointClusterer.KMeansPP(points,k,max);
+                System.out.println("k-meanas took "+watch);
+                watch.reset().start();
+                if(line.hasOption("p")){
+                    System.out.println("Centers:");
+                    for(Point point:centers){
+                        String s=point.toString();
+                        System.out.println(s.substring(1, s.length() - 1));
+                    }
+                }
+                System.out.println("Computing SE.....");
+                double se=CenteroidEvaluator.computeSSEFromCSV(input_path,new ArrayList<Point>(centers));
+                double icd=CenteroidEvaluator.computeIntraCenterDistance(new ArrayList<Point>(centers));
+                System.out.println("Took "+watch);
+                System.out.printf("SE:%g \t ICD:%f \n",se,icd);
+            }
+
+
+            if(line.hasOption("kmeans")){
+                if (!line.hasOption("i"))
+                    exit("An input file must be given!");
+                if (!line.hasOption("k"))
+                    exit("Number of clusters must be given.");
+                if (!line.hasOption("m"))
+                    exit("Max iterations must be given.");
+
+                System.out.println("Reading file....");
+                Collection<Point> points=CSVReader.readWholeFile(input_path);
+                System.out.println("Doing k-means....");
+
+                Collection<Point> centers =MasterPointClusterer.KMeans(points,k,max);
+                System.out.println("k-meanas took "+watch);
+                watch.reset().start();
+                if(line.hasOption("p")){
+                    System.out.println("Centers:");
+                    for(Point point:centers){
+                        String s=point.toString();
+                        System.out.println(s.substring(1, s.length() - 1));
+                    }
+                }
+                System.out.println("Computing SE.....");
+                double se=CenteroidEvaluator.computeSSEFromCSV(input_path,new ArrayList<Point>(centers));
+                double icd=CenteroidEvaluator.computeIntraCenterDistance(new ArrayList<Point>(centers));
+                System.out.println("Took "+watch);
+                System.out.printf("SE:%g \t ICD:%f \n",se,icd);
+            }
 
             if(line.hasOption("dkmeans")){
                 if (!line.hasOption("i"))
@@ -95,9 +153,16 @@ public class Main {
 
                 if(line.hasOption("b")){
                     System.out.println("Using binary format ....");
-                    Collection<Point> centers= MasterPointClusterer.DKMeansBinaryFile(input_path, k, chunk_size, 10, t);
-                    System.out.println("Took "+watch);
+                    Collection<Point> centers= MasterPointClusterer.DKMeansBinaryFile(input_path, k, chunk_size, 1, t);
+                    System.out.println("dkmeans Took "+watch);
                     watch.reset().start();
+                    if(line.hasOption("p")){
+                        System.out.println("Centers:");
+                        for(Point point:centers){
+                            String s=point.toString();
+                            System.out.println(s.substring(1, s.length() - 1));
+                        }
+                    }
                     System.out.println("Computing SE.....");
                     double se=CenteroidEvaluator.computeSSEFromBinary(input_path,new ArrayList<Point>(centers));
                     double icd=CenteroidEvaluator.computeIntraCenterDistance(new ArrayList<Point>(centers));
@@ -106,9 +171,16 @@ public class Main {
 
                 }
                 else {
-                    Collection<Point> centers =MasterPointClusterer.DKMeansCSVFile(input_path,k,chunk_size,10,t);
-                    System.out.println("Took "+watch);
+                    Collection<Point> centers =MasterPointClusterer.DKMeansCSVFile(input_path,k,chunk_size,1,t);
+                    System.out.println("dk-meanas Took "+watch);
                     watch.reset().start();
+                    if(line.hasOption("p")){
+                        System.out.println("Centers:");
+                        for(Point point:centers){
+                            String s=point.toString();
+                            System.out.println(s.substring(1, s.length() - 1));
+                        }
+                    }
                     System.out.println("Computing SE.....");
                     double se=CenteroidEvaluator.computeSSEFromCSV(input_path,new ArrayList<Point>(centers));
                     double icd=CenteroidEvaluator.computeIntraCenterDistance(new ArrayList<Point>(centers));
@@ -136,7 +208,7 @@ public class Main {
                 exit("Number of clusters must be given.");
 
             if(!line.hasOption("o"))
-                exit("Output pasth must be given.");
+                exit("Output path must be given.");
 
                 if(line.hasOption("b")){
                     System.out.println("Using binary format ....");
