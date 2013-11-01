@@ -97,7 +97,7 @@ public class Main {
                 System.out.println("Doing k-means++....");
 
                 Collection<Point> centers =MasterPointClusterer.KMeansPP(points,k,max);
-                System.out.println("k-meanas took "+watch);
+                System.out.println("k-meanas++ took "+watch);
                 watch.reset().start();
                 if(line.hasOption("p")){
                     System.out.println("Centers:");
@@ -127,7 +127,7 @@ public class Main {
                 System.out.println("Doing k-means....");
 
                 Collection<Point> centers =MasterPointClusterer.KMeans(points,k,max);
-                System.out.println("k-meanas took "+watch);
+                System.out.println("k-means took "+watch);
                 watch.reset().start();
                 if(line.hasOption("p")){
                     System.out.println("Centers:");
@@ -150,6 +150,8 @@ public class Main {
                     exit("Number of clusters must be given.");
                 if (!line.hasOption("c"))
                     exit("Chunk size must be given.");
+
+                System.out.println("Number of threads: "+t);
 
                 if(line.hasOption("b")){
                     System.out.println("Using binary format ....");
