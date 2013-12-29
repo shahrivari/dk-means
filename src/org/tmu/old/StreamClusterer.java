@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class StreamClusterer<T extends Clusterable<T>>   {
     BlockingQueue<List<T>> queue=new LinkedBlockingQueue<List<T>>();
 
-    ConcurrentLinkedDeque<T> intermediateCenters=new ConcurrentLinkedDeque<T>();
+    ConcurrentLinkedQueue<T> intermediateCenters=new ConcurrentLinkedQueue<T>();
 
     AtomicBoolean stop=new AtomicBoolean(false);
     AtomicInteger liveThreadsCount=new AtomicInteger(0);

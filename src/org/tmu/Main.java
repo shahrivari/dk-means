@@ -35,7 +35,6 @@ public class Main {
     static String output_path = "";
     static int k = 0;
     static int t = Runtime.getRuntime().availableProcessors();
-    static int tries = 3;
     static int chunk_size = 1000;
     static int max = 40;
     static boolean verbose = false;
@@ -68,7 +67,7 @@ public class Main {
             CommandLine line = parser.parse(options, args);
 
             if (line.hasOption("t"))
-                tries = Integer.parseInt(line.getOptionValue("t"));
+                t = Integer.parseInt(line.getOptionValue("t"));
             if (line.hasOption("m"))
                 max = Integer.parseInt(line.getOptionValue("m"));
             if (line.hasOption("p"))
@@ -97,7 +96,7 @@ public class Main {
                 System.out.println("Doing k-means++....");
 
                 Collection<Point> centers =MasterPointClusterer.KMeansPP(points,k,max);
-                System.out.println("k-meanas++ took "+watch);
+                System.out.println("k-means++ took "+watch);
                 watch.reset().start();
                 if(line.hasOption("p")){
                     System.out.println("Centers:");
@@ -174,7 +173,7 @@ public class Main {
                 }
                 else {
                     Collection<Point> centers =MasterPointClusterer.DKMeansCSVFile(input_path,k,chunk_size,1,t);
-                    System.out.println("dk-meanas Took "+watch);
+                    System.out.println("dk-means Took "+watch);
                     watch.reset().start();
                     if(line.hasOption("p")){
                         System.out.println("Centers:");
